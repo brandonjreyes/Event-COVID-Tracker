@@ -23,9 +23,13 @@
     <main class = " d-flex flex-column w-25 my-5 ">
         <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
         <input type="search" class="my-1"id="citySearch" placeholder="City">
+        <input type="range" id="range" name="distanceRange" min="10" max="200" value="50" step ="10"
+        oninput="passwordlengthfunc(this.value)" />
+      <output id="rangeVal">50</output>
         <button type="button" class="my-1 btn btn-primary">Submit</button>
     </main>
 </div>
+<script src="./Assets/js/script.js"></script>
 </body>
 
 </html>
