@@ -28,3 +28,7 @@ function getEvent() {
 }
 
 getEvent();
+
+function passwordlengthfunc(val) {
+    document.querySelector("#rangeVal").innerHTML = val + " miles";
+  };
