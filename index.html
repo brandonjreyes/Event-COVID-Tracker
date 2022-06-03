@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Concert COVID Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.css" rel="stylesheet" />
+    <title> Event COVID Tracker</title>
 </head>
+
 <body>
-    <p>Hello World!</p>
-    <script src="./script.js"></script>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
+        <div> Event COVID Tracker</div>
+    </nav>
+    <div class="d-flex justify-content-center mx-5">
+        <!-- change justify-content-center to justify-content-start to push search bar to the side -->
+        <main class=" d-flex flex-column w-25 my-5 ">
+            <h2>What kind of event would you like to go to?</h2>
+            <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
+            <h3>Search by City</h3>
+            <input type="search" class="my-1" id="citySearch" placeholder="City">
+            <h3>Or search by distance from your current location</h3>
+            <input type="range" id="range" name="distanceRange" min="10" max="200" value="50" step="10"
+                oninput="passwordlengthfunc(this.value)" />
+            <output id="rangeVal">50 miles</output>
+            <button type="button" class="my-1 btn btn-primary">Submit</button>
+        </main>
+    </div>
+    <script src="./Assets/js/script.js"></script>
 </body>
+
 </html>
