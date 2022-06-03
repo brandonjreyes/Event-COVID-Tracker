@@ -15,24 +15,20 @@
 </head>
 
 <body>
-    <p>Hello World!</p>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse text-center" id="navbarExample01">
-                <div> Event COVID Tracker</div>
-            </div>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
+            <div> Event COVID Tracker</div>
     </nav>
-   
-<main>
-    <h2>What kind of event would you like to go to?</h2>
-    <input type="search" id="eventSearch" placeholder="Event Name">
-    <h3>Search By City</h3>
-    <input type="search" id="citySearch" placeholder="City">
-     <button type="button" class="btn btn-primary">Submit</button>
-    <h3>Or Search by Distance from your Current Location</h3>
     
-</main>
+<div class="d-flex justify-content-center mx-5"> <!-- change justify-content-center to justify-content-start to push search bar to the side -->
+    <main class = " d-flex flex-column w-25 my-5 ">
+        <h2>What kind of event would you like to go to?</h2>
+        <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
+        <h3>Search by City</h3>
+        <input type="search" class="my-1"id="citySearch" placeholder="City">
+        <h3>Or search by distance from your current location</h3>
+        <button type="button" class="my-1 btn btn-primary">Submit</button>
+    </main>
+</div>
 </body>
 
 </html>
