@@ -16,20 +16,24 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
-            <div> Event COVID Tracker</div>
+        <div> Event COVID Tracker</div>
     </nav>
-    
-<div class="d-flex justify-content-center mx-5"> <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-    <main class = " d-flex flex-column w-25 my-5 ">
-        <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
-        <input type="search" class="my-1"id="citySearch" placeholder="City">
-        <input type="range" id="range" name="distanceRange" min="10" max="200" value="50" step ="10"
-        oninput="passwordlengthfunc(this.value)" />
-      <output id="rangeVal">50</output>
-        <button type="button" class="my-1 btn btn-primary">Submit</button>
-    </main>
-</div>
-<script src="./Assets/js/script.js"></script>
+
+    <div class="d-flex justify-content-center mx-5">
+        <!-- change justify-content-center to justify-content-start to push search bar to the side -->
+        <main class=" d-flex flex-column w-25 my-5 ">
+            <h2>What kind of event would you like to go to?</h2>
+            <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
+            <h3>Search by City</h3>
+            <input type="search" class="my-1" id="citySearch" placeholder="City">
+            <h3>Or search by distance from your current location</h3>
+            <input type="range" id="range" name="distanceRange" min="10" max="200" value="50" step="10"
+                oninput="passwordlengthfunc(this.value)" />
+            <output id="rangeVal">50 miles</output>
+            <button type="button" class="my-1 btn btn-primary">Submit</button>
+        </main>
+    </div>
+    <script src="./Assets/js/script.js"></script>
 </body>
 
 </html>
