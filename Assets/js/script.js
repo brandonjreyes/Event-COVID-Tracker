@@ -92,21 +92,23 @@ function stringifyLocation(position) {
     ticketmasterCall();
 }
 
-function searchRadius() {
+function search() {
     //search using input from search bar and decide whether city input or radius input is used
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
+    city = cityInputEl.val();
     evenDataEl.removeClass('d-none')
-    //search using radius  
-    getLocation();  //get location then query
-}
-
-function searchCity() {
-    city = cityInputEl.val(); //grab city input
-    keyword = keywordInput.val();   //grabs keyword input
-    evenDataEl.removeClass('d-none')
-    //search using city
-    queryInput = keywordTag + keyword + cityTag + city;
+    if(city === "" && radius !== 0) {
+        //search by radius
+        getLocation();
+        return;
+    }
+    else if(radius === 0 && city !== "") {
+        queryInput = keywordTag + keyword + cityTag + city;
+    }
+    else {
+        queryInput = keywordTag + keyword;
+    }
     ticketmasterCall();
 }
 
@@ -114,5 +116,4 @@ function renderResults(results) {
     //render the results to screen using results which is an array of objects
 }
 
-submitButtonRadiusEl.on('click',searchRadius);
-subitButtonCityEl.on('click',searchCity);
+submitButtonRadiusEl.on('click',search);
