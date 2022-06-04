@@ -42,6 +42,7 @@ let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
 let keywordInput = $('#eventSearch');
 let submitButtonEl = $('#submitButton');
+let evenDataEl = $('#eventData');
 
 const options = {
     method: 'GET'
@@ -95,6 +96,7 @@ function search() {
     radius = rangeSliderEl.val(); //grab radius from slider
     city = cityInputEl.val(); //grab city input
     keyword = keywordInput.val();   //grabs keyword input
+    evenDataEl.removeClass('d-none')
     if(city === "") {
         //search using radius  
         getLocation();  //get location then query
