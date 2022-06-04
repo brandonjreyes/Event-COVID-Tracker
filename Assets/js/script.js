@@ -22,7 +22,7 @@
 
 function rangValfunc(val) {
     document.querySelector("#rangeVal").innerHTML = val + " miles" ;
-  };
+};
 
 const url = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
