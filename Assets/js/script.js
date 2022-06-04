@@ -20,10 +20,6 @@
                 Vaccination rates
 */
 
-function rangValfunc(val) {
-    document.querySelector("#rangeVal").innerHTML = val + " miles" ;
-};
-
 const url = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
 const keywordTag = '&keyword=';
@@ -35,15 +31,23 @@ const latlongTag= '&latlong=';
 const pageTag = '&page=';
 
 let keyword = "";
-let radius = "50";
+let radius = "";
 let city = "";
 let latlon = "";
 let page = 1;
 let queryInput = "";
 let queryData = [];
 
+let rangeSliderEl = $('#range');
+let cityInputEl = $('#citySearch');
+
 const options = {
     method: 'GET'
+};
+
+function rangValfunc(val) {
+    document.querySelector("#rangeVal").innerHTML = val + " miles" ;
+    radius = val;
 };
 
 function nextPage() {   //increment page, requery
@@ -85,25 +89,23 @@ function stringifyLocation(position) {
 
 function search() {
     //search using input from search bar and decide whether city input or radius input is used
-    radius = ""; //grab radius
-    city = ""; //grab city
-    if(city === "" && radius !== "") {
+    radius = rangeSliderEl.val(); //grab radius
+    city = cityInputEl.val(); //grab city
+    if(city === "") {
         //search using radius  
         getLocation();  //get location then query
     }
-    else if(radius === "" && city !== "") {
+    else if(city !== "") {
         //search using city
         queryInput = keywordTag + keyword + cityTag + city;
         ticketmasterCall();
     }
     else {
         //search using only keyword
-        queryInput = 
+        queryInput = "";
     }
 }
 
 function renderResults(results) {
     //render the results to screen using results which is an array of objects
 }
-
-getLocation();
