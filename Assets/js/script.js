@@ -41,7 +41,8 @@ let queryData = [];
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
 let keywordInput = $('#eventSearch');
-let submitButtonEl = $('#submitButton');
+let submitButtonRadiusEl = $('#submitButtonRadius');
+let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
 
 const options = {
@@ -91,29 +92,27 @@ function stringifyLocation(position) {
     ticketmasterCall();
 }
 
-function search() {
+function searchRadius() {
     //search using input from search bar and decide whether city input or radius input is used
     radius = rangeSliderEl.val(); //grab radius from slider
+    keyword = keywordInput.val();   //grabs keyword input
+    evenDataEl.removeClass('d-none')
+    //search using radius  
+    getLocation();  //get location then query
+}
+
+function searchCity() {
     city = cityInputEl.val(); //grab city input
     keyword = keywordInput.val();   //grabs keyword input
     evenDataEl.removeClass('d-none')
-    if(city === "") {
-        //search using radius  
-        getLocation();  //get location then query
-    }
-    else if(city !== "") {
-        //search using city
-        queryInput = keywordTag + keyword + cityTag + city;
-        ticketmasterCall();
-    }
-    else {
-        //search using only keyword
-        queryInput = "";
-    }
+    //search using city
+    queryInput = keywordTag + keyword + cityTag + city;
+    ticketmasterCall();
 }
 
 function renderResults(results) {
     //render the results to screen using results which is an array of objects
 }
 
-submitButtonEl.on('click',search);
+submitButtonRadiusEl.on('click',searchRadius);
+subitButtonCityEl.on('click',searchCity);

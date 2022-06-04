@@ -24,17 +24,17 @@
             <div class="fw-bold fs-5">What kind of event would you like to go to?</div>
             <div class="input-group ">
                 <div class="form-outline">
-                    <input id="search-input" type="search" class="my-1 form-control" id="eventSearch" id="form1">
+                    <input type="search" class="my-1 form-control" id="eventSearch">
                     <label class="form-label" for="form1">Event</label>
                 </div>
             </div>
             <div class="fw-bold fs-5">Search by City</div>
             <div class="input-group ">
                 <div class="form-outline">
-                    <input id="search-input" type="search" class="my-1 form-control" id="citySearch" id="form1">
+                    <input type="search" class="my-1 form-control" id="citySearch">
                     <label class="form-label" for="form1">City</label>
                 </div>
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" id="submitButtonCity">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -42,7 +42,7 @@
             <input type="range" id="range" name="distanceRange" min="5" max="250" value="50" step="5"
                 oninput="rangValfunc(this.value)" />
             <output id="rangeVal">50 miles</output>
-            <button type="button" class="my-1 btn btn-primary">
+            <button type="button" class="my-1 btn btn-primary" id="submitButtonRadius">
                 <i class="fas fa-search"></i>
             </button>
         </main>
