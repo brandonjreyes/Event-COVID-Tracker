@@ -75,7 +75,7 @@ function ticketmasterCall() {
     .then(function(data) {
         queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
         console.log(queryData);
-
+        renderResults(queryData);
     });
 }
 
