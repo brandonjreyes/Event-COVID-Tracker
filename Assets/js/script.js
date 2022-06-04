@@ -40,6 +40,7 @@ let queryData = [];
 
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
+let keywordInput = $('#eventSearch');
 
 const options = {
     method: 'GET'
@@ -89,8 +90,9 @@ function stringifyLocation(position) {
 
 function search() {
     //search using input from search bar and decide whether city input or radius input is used
-    radius = rangeSliderEl.val(); //grab radius
-    city = cityInputEl.val(); //grab city
+    radius = rangeSliderEl.val(); //grab radius from slider
+    city = cityInputEl.val(); //grab city input
+    keyword = keywordInput.val();   //grabs keyword input
     if(city === "") {
         //search using radius  
         getLocation();  //get location then query
