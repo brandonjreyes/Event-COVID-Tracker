@@ -1,6 +1,4 @@
-// const options = {
-// method: 'GET'
-// };
+
 
 // const url = 'https://app.ticketmaster.com/discovery/v2/events.json';
 // const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
@@ -77,19 +75,26 @@ const latlongTag= '&latlong=';
 const pageTag = '&page=';
 
 let keyword = "";
-let radius = "";
+let radius = "50";
 let city = "";
 let latlon = "";
 let page = 1;
 let queryInput = "";
+let queryData = [];
+
+const options = {
+    method: 'GET'
+};
 
 function ticketmasterCall() {
-    fetch(url + apiKey + + pageTag + page + queryInput, options)
+    fetch(url + apiKey + pageTag + page + queryInput, options)
     .then(function (response) {
         return response.json()
     })
     .then(function(data) {
-        console.log(data)
+        queryData = data;
+        console.log(queryData);
+
     });
 }
 
@@ -101,7 +106,6 @@ function getLocation() {
 
 function stringifyLocation(position) {
     latlon = position.coords.latitude + "," + position.coords.longitude;
-    console.log(latlon);
     queryInput = latlongTag + latlon + radiusTag + radius;
     ticketmasterCall();
 }
