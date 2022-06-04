@@ -18,18 +18,55 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
         <div> Event COVID Tracker</div>
     </nav>
-    <div class="d-flex justify-content-center mx-5">
+    <div class="d-flex justify-content-center mx-5 row">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-        <main class=" d-flex flex-column w-25 my-5 ">
-            <h2>What kind of event would you like to go to?</h2>
+        <main class=" d-flex flex-column w-25 my-5 col-8">
+            <div>What kind of event would you like to go to?</div>
             <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
-            <h3>Search by City</h3>
+            <div>Search by City</div>
             <input type="search" class="my-1" id="citySearch" placeholder="City">
-            <h3>Or search by distance from your current location</h3>
+            <div>Or search by distance from your current location</div>
             <input type="range" id="range" name="distanceRange" min="10" max="200" value="50" step="10"
                 oninput="rangValfunc(this.value)" />
             <output id="rangeVal">50 miles</output>
             <button type="button" class="my-1 btn btn-primary">Submit</button>
+        </main>
+        <main class="  flex-column my-5 col-8  ">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">COVID Cases in County</th>
+                    <th scope="col">More Info</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>San Francisco</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>5000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Oakland</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>6000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>San Jose</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>2000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            
         </main>
     </div>
     <script src="./Assets/js/script.js"></script>
