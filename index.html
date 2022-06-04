@@ -18,17 +18,17 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
         <div> Event COVID Tracker</div>
     </nav>
-    <div class="d-flex justify-content-center mx-5">
+    <div class="d-flex justify-content-center mx-5 row">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
         <main class=" d-flex flex-column w-25 my-5 ">
-            <h2>What kind of event would you like to go to?</h2>
+            <div>What kind of event would you like to go to?</div>
             <div class="input-group ">
                 <div class="form-outline">
                     <input id="search-input" type="search" class="my-1 form-control" id="eventSearch" id="form1">
                     <label class="form-label" for="form1">Event</label>
                 </div>
             </div>
-            <h3>Search by City</h3>
+            <div>Search by City</div>
             <div class="input-group ">
                 <div class="form-outline">
                     <input id="search-input" type="search" class="my-1 form-control" id="citySearch" id="form1">
@@ -38,7 +38,7 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <h3>Or search by distance from your current location</h3>
+            <div>Or search by distance from your current location</div>
             <input type="range" id="range" name="distanceRange" min="5" max="250" value="50" step="5"
                 oninput="rangValfunc(this.value)" />
             <output id="rangeVal">50 miles</output>
@@ -47,7 +47,47 @@
             </button>
         </main>
     </div>
-    <!-- MDB -->
+        <!-- add class="d-none" to hide this area initially -->
+        <main class=" d-none flex-column my-5 col-8  " id ="eventData">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Event</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">COVID Cases in County</th>
+                    <th scope="col">More Info</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>San Francisco</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>5000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Oakland</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>6000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>San Jose</td>
+                    <td>Jan 1st, 2022</td>
+                    <td>2000</td>
+                    <td><a href="#">See more</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            
+        </main>
+    </div>
+    <script src="./Assets/js/jquery-3.6.0.min.js"></script>
+     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.js"></script>
     <script src="./Assets/js/script.js"></script>
 </body>
