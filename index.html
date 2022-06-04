@@ -34,20 +34,17 @@
                     <input type="search" class="my-1 form-control" id="citySearch">
                     <label class="form-label" for="form1">City</label>
                 </div>
-                <button type="button" class="btn btn-primary" id="submitButtonCity">
-                    <i class="fas fa-search"></i>
-                </button>
             </div>
             <div class="fw-bold fs-5">Or search by distance from your current location</div>
-            <input type="range" id="range" name="distanceRange" min="5" max="250" value="50" step="5"
+            <input type="range" id="range" name="distanceRange" min="0" max="250" value="0" step="5"
                 oninput="rangValfunc(this.value)" />
-            <output id="rangeVal">50 miles</output>
+            <output id="rangeVal">0 miles</output>
             <button type="button" class="my-1 btn btn-primary" id="submitButtonRadius">
                 <i class="fas fa-search"></i>
             </button>
         </main>
         <!-- add class="d-none" to hide this area initially -->
-        <main class=" d-none flex-column my-5 col-8  " id ="eventData">
+        <section class=" d-none flex-column my-5 col-8  " id ="eventData">
             <table class="table table-hover">
                 <thead>
                   <tr>
@@ -83,7 +80,7 @@
                 </tbody>
               </table>
             
-        </main>
+        </section>
     </div>
     <script src="./Assets/js/jquery-3.6.0.min.js"></script>
      <!-- MDB -->
