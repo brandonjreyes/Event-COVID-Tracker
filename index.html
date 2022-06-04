@@ -20,7 +20,7 @@
     </nav>
     <div class="d-flex justify-content-center mx-5 row">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-        <main class=" d-flex flex-column w-25 my-5 col-4 ">
+        <main class=" d-flex flex-column w-25 my-5 col-8">
             <div>What kind of event would you like to go to?</div>
             <input type="search" class="my-1" id="eventSearch" placeholder="Event Name">
             <div>Search by City</div>
@@ -31,7 +31,8 @@
             <output id="rangeVal">50 miles</output>
             <button type="button" class="my-1 btn btn-primary">Submit</button>
         </main>
-        <main class=" d-none flex-column my-5 col-8  ">
+        <!-- add class="d-none" to hide this area initially -->
+        <main class="  flex-column my-5 col-8  ">
             <table class="table table-hover">
                 <thead>
                   <tr>
