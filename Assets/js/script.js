@@ -41,6 +41,7 @@ let queryData = [];
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
 let keywordInput = $('#eventSearch');
+let submitButtonEl = $('#submitButton');
 
 const options = {
     method: 'GET'
@@ -65,6 +66,7 @@ function previousPage() {   //decrement page, requery
 }
 
 function ticketmasterCall() {
+    console.log(queryInput);
     fetch(url + apiKey + pageTag + page + queryInput, options)
     .then(function (response) {
         return response.json()
@@ -111,3 +113,5 @@ function search() {
 function renderResults(results) {
     //render the results to screen using results which is an array of objects
 }
+
+submitButtonEl.on('click',search);
