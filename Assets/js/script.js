@@ -41,6 +41,7 @@ let queryData = [];
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
 let keywordInput = $('#eventSearch');
+let buttonEl = $("button")
 
 const options = {
     method: 'GET'
@@ -50,6 +51,10 @@ function rangValfunc(val) {
     document.querySelector("#rangeVal").innerHTML = val + " miles" ;
     radius = val;
 };
+
+buttonEl.click( function(){
+        $("#eventData").removeClass("d-none")
+})
 
 function nextPage() {   //increment page, requery
     page++;
