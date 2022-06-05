@@ -1,1 +1,1 @@
-# Concert-COVID-Tracker
+# Event-COVID-Tracker
