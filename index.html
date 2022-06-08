@@ -11,60 +11,63 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\Concert-COVID-Tracker\Assets\CSS\style.css">
     <title> Event COVID Tracker</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
-        <div class="fw-bolder fs-2"> Event COVID Tracker</div>
+        <div class="fw-bolder fontSizing"> Event COVID Tracker</div>
     </nav>
-    <div class="d-flex justify-content-center mx-5 row">
+    <div class="d-flex container-fluid justify-content-center mx-5 row" id="bckGrnd">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-        <main class=" d-flex flex-column w-25 my-5 ">
-            <div class="fw-bold fs-5">What kind of event would you like to go to?</div>
-            <div class="input-group ">
-                <div class="form-outline">
-                    <input type="search" class="my-1 form-control" id="eventSearch">
-                    <label class="form-label" for="form1">Event</label>
+        <main id="searchBar" class="d-flex flex-column w-25 my-5 fontSizing rounded-6">
+            <div class="justify-content-center align-content-center h-50 container-fluid">
+                <div class="fw-bold fontSizing justify-content-center">What kind of event would you like to go to?</div>
+                <div class="input-group ">
+                    <div class="form-outline">
+                        <input type="search" class="my-1 form-control" id="eventSearch">
+                        <label class="form-label" for="form1">Event</label>
+                    </div>
                 </div>
-            </div>
-            <div class="fw-bold fs-5">Search by City</div>
-            <div class="input-group ">
-                <div class="form-outline">
-                    <input type="search" class="my-1 form-control" id="citySearch">
-                    <label class="form-label" for="form1">City</label>
+                <div class="fw-bold fontSizing justify-content-center">Search by City</div>
+                <div class="input-group ">
+                    <div class="form-outline">
+                        <input type="search" class="my-1 form-control" id="citySearch">
+                        <label class="form-label" for="form1">City</label>
+                    </div>
                 </div>
+                <div class="fw-bold fontSizing">Or search by distance from your current location</div>
+                <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0" step="5"
+                    oninput="rangValfunc(this.value)" />
+                <output id="rangeVal" class="fontSizing">0 miles</output>
+                <button type="button" class="my-1 btn btn-primary fontSizing" id="submitButtonRadius">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
-            <div class="fw-bold fs-5">Or search by distance from your current location</div>
-            <input type="range" id="range" name="distanceRange" min="0" max="250" value="0" step="5"
-                oninput="rangValfunc(this.value)" />
-            <output id="rangeVal">0 miles</output>
-            <button type="button" class="my-1 btn btn-primary" id="submitButtonRadius">
-                <i class="fas fa-search"></i>
-            </button>
         </main>
 
         <!-- add class="d-none" to hide this area initially -->
-        <section class=" d-none flex-column my-5 col-8  " id ="eventData">
+        <section class=" d-none flex-column my-5 col-8 rounded-6 " id="eventData">
             <table class="table table-hover">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Event</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">COVID Cases in County</th>
-                    <th scope="col">More Info</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Event</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">COVID Cases in County</th>
+                        <th scope="col">More Info</th>
+                    </tr>
                 </thead>
-                
+
                 <tbody id="event-table-body">
                 </tbody>
-              </table>
-            
+            </table>
+
         </section>
     </div>
     <script src="./Assets/js/jquery-3.6.0.min.js"></script>
-     <!-- MDB -->
+    <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.js"></script>
     <script src="./Assets/js/script.js"></script>
 </body>

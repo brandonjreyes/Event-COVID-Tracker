@@ -1,0 +1,27 @@
+#bckGrnd {
+    background-image: url("../images/homeScreenBackground.jpg");
+    height: 100vh;
+    width: 100vw;
+    color: rgb(0, 0, 0);
+}
+#searchBar {
+    background-color: rgba(255, 255, 255, 0.5); 
+    max-height: 25vh;
+}
+#eventData {
+    background-color: rgba(255, 255, 255, 0.5); 
+    max-height: fit-content
+}
+#submitButtonRadius{
+    height: 4vh;
+    width: 15vw;
+}
+#range {
+    width: 12vw
+}
+.fontSizing {
+    font-size: 1vw;
+}
+@media (min-width: 1000px) and (max-width:900) {
+    
+}
