@@ -27,7 +27,7 @@ const radiusTag = '&radius=';
 const unitTag = '&unit=miles';
 const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
-const latlongTag = '&latlong=';
+const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
 const sizeTag = '&size=';
 
@@ -78,8 +78,8 @@ function ticketmasterCall() {
             return response.json()
         })
         .then(function (data) {
+            console.log(data);
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
-            console.log(queryData);
             renderResults(queryData);
         });
 }
