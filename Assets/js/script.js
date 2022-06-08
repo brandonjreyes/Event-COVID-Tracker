@@ -43,7 +43,8 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
-let tableRowEl = $('.table-row');
+
+let covidInfoBtnEl = $('.covid-btn');
 
 const options = {
     method: 'GET'
@@ -115,6 +116,7 @@ function search() {
 
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
+    
     console.log();
 
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
@@ -125,16 +127,46 @@ function renderResults(results) {
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
+        let covidCasesNum = $("<td></td>").text('Filler COVID #s');
+        
+        
+        // add covid info button
+        let covidInfoBtnCol = $("<td></td>")
+        let covidInfoBtn = $("<button></button>")
+        
+        covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
+        covidInfoBtn.attr('type', "button");
+        covidInfoBtn.text("More info");
+
+        // for every specific button
+        covidInfoBtn.on('click', goNextPage);
+
+        covidInfoBtnCol.append(covidInfoBtn);
+
+
         eventName.addClass('table-row');
         tableRow.append(rowHeader);
         tableRow.append(eventName);
         tableRow.append(eventDate);
+        tableRow.append(covidCasesNum);
+        tableRow.append(covidInfoBtnCol);
         eventTableBody.append(tableRow);
+        
+        
     }
 
 }
 
+function goNextPage(event) {
+    event.preventDefault();
+    console.log("button clicked");
+    location.href = "concertSelect.html";
+}
+
 submitButtonRadiusEl.on('click', search);
+
+
