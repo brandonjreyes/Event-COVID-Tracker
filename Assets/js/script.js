@@ -155,12 +155,13 @@ function renderResults(results) {
         for (let i = 0; i < results.events.length; i++) {
             let tableRow = $("<tr></tr>")
             let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
-
+            let favoriteStar = $("<th><i class='fa-regular fa-star'></i></th>")
             let eventURL= $("<a target='blank' href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
             let eventName = $("<td></td>").append(eventURL);
             let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
             eventName.addClass('table-row');
             tableRow.append(rowHeader);
+            tableRow.append(favoriteStar);
             tableRow.append(eventName);
             tableRow.append(eventDate);
             eventTableBody.append(tableRow);
