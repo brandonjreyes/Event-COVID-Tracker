@@ -43,6 +43,7 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
+let tableRowEl = $('.table-row');
 
 const options = {
     method: 'GET'
@@ -116,22 +117,22 @@ function search() {
 function renderResults(results) {
     console.log();
 
-
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
     
     eventTableBody.empty(eventTableBody); // clears previous searches
     
     //creates a new row, and fills it with information from event array
     for (let i = 0; i < results.events.length; i++) {
-        let eventTable = $("<tr></tr>")
+        let tableRow = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-        eventTable.append(rowHeader);
-        eventTable.append(eventName);
-        eventTable.append(eventDate);
-        eventTableBody.append(eventTable);
+        eventName.addClass('table-row');
+        tableRow.append(rowHeader);
+        tableRow.append(eventName);
+        tableRow.append(eventDate);
+        eventTableBody.append(tableRow);
     }
 
 }
