@@ -29,6 +29,7 @@ const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
 const latlongTag = '&latlong=';
 const pageTag = '&page=';
+const sizeTag = '&size=';
 
 let keyword = "";
 let radius = "";
@@ -72,7 +73,7 @@ function previousPage() {   //decrement page, requery
 
 function ticketmasterCall() {
     console.log(queryInput);
-    fetch(tickmasterURL + apiKey + pageTag + page + queryInput, options)
+    fetch(tickmasterURL + apiKey + pageTag + page + queryInput + sizeTag + 15, options)
         .then(function (response) {
             return response.json()
         })
