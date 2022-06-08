@@ -20,7 +20,7 @@
                 Vaccination rates
 */
 
-const url = 'https://app.ticketmaster.com/discovery/v2/events.json';
+const tickmasterURL = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
 const keywordTag = '&keyword=';
 const radiusTag = '&radius=';
@@ -37,6 +37,8 @@ let latlon = "";
 let page = 1;
 let queryInput = "";
 let queryData = [];
+
+const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
@@ -70,7 +72,7 @@ function previousPage() {   //decrement page, requery
 
 function ticketmasterCall() {
     console.log(queryInput);
-    fetch(url + apiKey + pageTag + page + queryInput, options)
+    fetch(tickmasterURL + apiKey + pageTag + page + queryInput, options)
         .then(function (response) {
             return response.json()
         })
@@ -79,6 +81,32 @@ function ticketmasterCall() {
             console.log(queryData);
             renderResults(queryData);
         });
+}
+
+function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
+    let fipsCode = '';
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': 'us-zip-code-lookup.p.rapidapi.com',
+            'X-RapidAPI-Key': 'dff04c7643mshdf131b4c950b3bcp1de78bjsnebeba2fbf878'
+        }
+    };
+    
+    fetch(`https://us-zip-code-lookup.p.rapidapi.com/getZip?zip=${zipCode}`, options)
+    .then(response => response.json())
+    .then(function(data) {
+        fipsCode = data.Data[0].StateFIPS + data.Data[0].CountyFIPS;    //makes fips code
+        covidAPICall(fipsCode);
+    });
+}
+
+function covidAPICall(fipsCode) {   //takes fipsCode and gets data
+    fetch(`https://api.covidactnow.org/v2/county/${fipsCode}.json?apiKey=${covidAPIKey}`)
+    .then(response => response.json())
+    .then(function(data) {
+        console.log(data);
+    });
 }
 
 function getLocation() {
@@ -125,6 +153,7 @@ function renderResults(results) {
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+
         let eventURL= $("<a target='blank' href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
@@ -133,8 +162,10 @@ function renderResults(results) {
         tableRow.append(eventName);
         tableRow.append(eventDate);
         eventTableBody.append(tableRow);
+
     }
 
 }
 
 submitButtonRadiusEl.on('click', search);
+getCounty(95355);
