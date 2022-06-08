@@ -27,7 +27,7 @@ const radiusTag = '&radius=';
 const unitTag = '&unit=miles';
 const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
-const latlongTag= '&latlong=';
+const latlongTag = '&latlong=';
 const pageTag = '&page=';
 
 let keyword = "";
@@ -49,7 +49,7 @@ const options = {
 };
 
 function rangValfunc(val) {
-    document.querySelector("#rangeVal").innerHTML = val + " miles" ;
+    document.querySelector("#rangeVal").innerHTML = val + " miles";
     radius = val;
 };
 
@@ -60,7 +60,7 @@ function nextPage() {   //increment page, requery
 
 function previousPage() {   //decrement page, requery
     page--;
-    if(page < 1) {
+    if (page < 1) {
         page = 1;
     }
     ticketmasterCall();
@@ -69,14 +69,14 @@ function previousPage() {   //decrement page, requery
 function ticketmasterCall(queryInput) {
     console.log(queryInput);
     fetch(url + apiKey + pageTag + page + queryInput, options)
-    .then(function (response) {
-        return response.json()
-    })
-    .then(function(data) {
-        queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
-        console.log(data);
-        renderResults(queryData);
-    });
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
+            console.log(queryData);
+            renderResults(queryData);
+        });
 }
 
 function getLocation() {
@@ -112,8 +112,27 @@ function search() {
     ticketmasterCall(queryInput);
 }
 
+//render the results to screen using results which is an array of objects
 function renderResults(results) {
-    //render the results to screen using results which is an array of objects
+    console.log();
+
+
+    let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
+    
+    eventTableBody.empty(eventTableBody); // clears previous searches
+    
+    //creates a new row, and fills it with information from event array
+    for (let i = 0; i < results.events.length; i++) {
+        let eventTable = $("<tr></tr>")
+        let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+        let eventName = $("<td></td>").text(results.events[i].name);
+        let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
+        eventTable.append(rowHeader);
+        eventTable.append(eventName);
+        eventTable.append(eventDate);
+        eventTableBody.append(eventTable);
+    }
+
 }
 
-submitButtonRadiusEl.on('click',search);
+submitButtonRadiusEl.on('click', search);
