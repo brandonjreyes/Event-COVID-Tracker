@@ -44,6 +44,7 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
+let tableRowEl = $('.table-row');
 
 const options = {
     method: 'GET'
@@ -122,14 +123,15 @@ function renderResults(results) {
     
     //creates a new row, and fills it with information from event array
     for (let i = 0; i < results.events.length; i++) {
-        let eventTable = $("<tr></tr>")
+        let tableRow = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
         let eventName = $("<td></td>").text(results.events[i].name);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-        eventTable.append(rowHeader);
-        eventTable.append(eventName);
-        eventTable.append(eventDate);
-        eventTableBody.append(eventTable);
+        eventName.addClass('table-row');
+        tableRow.append(rowHeader);
+        tableRow.append(eventName);
+        tableRow.append(eventDate);
+        eventTableBody.append(tableRow);
     }
 
 }
