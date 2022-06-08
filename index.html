@@ -19,10 +19,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
         <div class="fw-bolder fontSizing"> Event COVID Tracker</div>
     </nav>
-    <div class="d-flex container-fluid justify-content-center mx-5 row" id="bckGrnd">
+    <div class="d-flex container-fluid mx-5 row">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
         <main id="searchBar" class="d-flex flex-column w-25 my-5 fontSizing rounded-6">
-            <div class="justify-content-center align-content-center h-50 container-fluid">
+            <div class="justify-content-center align-content-center h-50 container-fluid" id="searchContainer">
                 <div class="fw-bold fontSizing justify-content-center">What kind of event would you like to go to?</div>
                 <div class="input-group ">
                     <div class="form-outline">
@@ -46,7 +46,6 @@
                 </button>
             </div>
         </main>
-
         <!-- add class="d-none" to hide this area initially -->
         <section class=" d-none flex-column my-5 col-8 rounded-6 " id="eventData">
             <table class="table table-hover">

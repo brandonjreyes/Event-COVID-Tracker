@@ -1,4 +1,4 @@
-#bckGrnd {
+body {
     background-image: url("../images/homeScreenBackground.jpg");
     height: 100vh;
     width: 100vw;
@@ -8,10 +8,7 @@
     background-color: rgba(255, 255, 255, 0.5); 
     max-height: 25vh;
 }
-#eventData {
-    background-color: rgba(255, 255, 255, 0.5); 
-    max-height: fit-content
-}
+
 #submitButtonRadius{
     height: 4vh;
     width: 15vw;
@@ -22,6 +19,39 @@
 .fontSizing {
     font-size: 1vw;
 }
-@media (min-width: 1000px) and (max-width:900) {
-    
+#eventData {
+    background-color: rgba(255, 255, 255, 0.5); 
+    max-height: fit-content
+}
+@media (max-width: 1000px) {
+    #searchBar {
+        max-height: 38vh
+    }
+    .fontSizing{
+        font-size: 1.5vw;
+    }
+}
+@media (max-width: 500px) {
+    #bckGrnd {
+        display: block;
+        padding: 0%;
+    }
+    #searchBar {
+        display: block;
+        max-width: 40vw;
+        max-height: 57vh;
+        
+    }
+    #eventData {
+        display: block;
+    }
+    .fontSizing {
+        font-size: 1.5vh;
+    }
+    #searchContainer {
+        padding: 0%;
+    }
+    body {
+        display: block;
+    }
 }
