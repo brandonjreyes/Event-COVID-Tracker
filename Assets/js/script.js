@@ -125,7 +125,8 @@ function renderResults(results) {
     for (let i = 0; i < results.events.length; i++) {
         let eventTable = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
-        let eventName = $("<td></td>").text(results.events[i].name);
+        let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
+        let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
         eventTable.append(rowHeader);
         eventTable.append(eventName);
