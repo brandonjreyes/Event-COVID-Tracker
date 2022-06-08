@@ -34,7 +34,7 @@ let keyword = "";
 let radius = "";
 let city = "";
 let latlon = "";
-let page = 1;
+let page = 0;
 let queryInput = "";
 let queryData = [];
 
@@ -123,16 +123,17 @@ function stringifyLocation(position) {
 
 function search() {
     //search using input from search bar and decide whether city input or radius input is used
+    queryInput = "";
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
     city = cityInputEl.val();
     evenDataEl.removeClass('d-none')
-    if (city === "" && radius !== 0) {
+    if (city === "" && radius !== '0') {
         //search by radius
         getLocation();
         return;
     }
-    else if (radius === 0 && city !== "") {
+    else if (radius === '0' && city !== "") {
         queryInput = keywordTag + keyword + cityTag + city;
     }
     else {
@@ -149,20 +150,22 @@ function renderResults(results) {
     
     eventTableBody.empty(eventTableBody); // clears previous searches
     
-    //creates a new row, and fills it with information from event array
-    for (let i = 0; i < results.events.length; i++) {
-        let tableRow = $("<tr></tr>")
-        let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+    if(results !== null) {
+        //creates a new row, and fills it with information from event array
+        for (let i = 0; i < results.events.length; i++) {
+            let tableRow = $("<tr></tr>")
+            let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
 
-        let eventURL= $("<a target='blank' href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
-        let eventName = $("<td></td>").append(eventURL);
-        let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-        eventName.addClass('table-row');
-        tableRow.append(rowHeader);
-        tableRow.append(eventName);
-        tableRow.append(eventDate);
-        eventTableBody.append(tableRow);
+            let eventURL= $("<a target='blank' href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
+            let eventName = $("<td></td>").append(eventURL);
+            let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
+            eventName.addClass('table-row');
+            tableRow.append(rowHeader);
+            tableRow.append(eventName);
+            tableRow.append(eventDate);
+            eventTableBody.append(tableRow);
 
+        }
     }
 
 }
