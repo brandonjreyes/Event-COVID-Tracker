@@ -34,8 +34,7 @@ let keyword = "";
 let radius = "";
 let city = "";
 let latlon = "";
-let page = 1;
-let queryInput = "";
+let page = 0;
 let queryData = [];
 
 let rangeSliderEl = $('#range');
@@ -67,7 +66,7 @@ function previousPage() {   //decrement page, requery
     ticketmasterCall();
 }
 
-function ticketmasterCall() {
+function ticketmasterCall(queryInput) {
     console.log(queryInput);
     fetch(url + apiKey + pageTag + page + queryInput, options)
         .then(function (response) {
@@ -97,19 +96,20 @@ function search() {
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
     city = cityInputEl.val();
+    let queryInput;
     evenDataEl.removeClass('d-none')
-    if (city === "" && radius !== 0) {
+    if(city === null && radius !== '0') {
         //search by radius
         getLocation();
         return;
     }
-    else if (radius === 0 && city !== "") {
+    else if(radius === '0' && city !== '') {
         queryInput = keywordTag + keyword + cityTag + city;
     }
     else {
         queryInput = keywordTag + keyword;
     }
-    ticketmasterCall();
+    ticketmasterCall(queryInput);
 }
 
 //render the results to screen using results which is an array of objects
