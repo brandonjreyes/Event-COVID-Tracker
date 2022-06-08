@@ -116,7 +116,6 @@ function search() {
 function renderResults(results) {
     console.log();
 
-
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
     
     eventTableBody.empty(eventTableBody); // clears previous searches
