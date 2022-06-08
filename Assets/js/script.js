@@ -20,22 +20,26 @@
                 Vaccination rates
 */
 
-const url = 'https://app.ticketmaster.com/discovery/v2/events.json';
+const tickmasterURL = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
 const keywordTag = '&keyword=';
 const radiusTag = '&radius=';
 const unitTag = '&unit=miles';
 const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
-const latlongTag = '&latlong=';
+const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
+const sizeTag = '&size=';
 
 let keyword = "";
 let radius = "";
 let city = "";
 let latlon = "";
 let page = 0;
+let queryInput = "";
 let queryData = [];
+
+const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
@@ -68,17 +72,43 @@ function previousPage() {   //decrement page, requery
     ticketmasterCall();
 }
 
-function ticketmasterCall(queryInput) {
+function ticketmasterCall() {
     console.log(queryInput);
-    fetch(url + apiKey + pageTag + page + queryInput, options)
+    fetch(tickmasterURL + apiKey + pageTag + page + queryInput + sizeTag + 15, options)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
+            console.log(data);
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
-            console.log(queryData);
             renderResults(queryData);
         });
+}
+
+function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
+    let fipsCode = '';
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': 'us-zip-code-lookup.p.rapidapi.com',
+            'X-RapidAPI-Key': 'dff04c7643mshdf131b4c950b3bcp1de78bjsnebeba2fbf878'
+        }
+    };
+    
+    fetch(`https://us-zip-code-lookup.p.rapidapi.com/getZip?zip=${zipCode}`, options)
+    .then(response => response.json())
+    .then(function(data) {
+        fipsCode = data.Data[0].StateFIPS + data.Data[0].CountyFIPS;    //makes fips code
+        covidAPICall(fipsCode);
+    });
+}
+
+function covidAPICall(fipsCode) {   //takes fipsCode and gets data
+    fetch(`https://api.covidactnow.org/v2/county/${fipsCode}.json?apiKey=${covidAPIKey}`)
+    .then(response => response.json())
+    .then(function(data) {
+        console.log(data);
+    });
 }
 
 function getLocation() {
@@ -95,23 +125,23 @@ function stringifyLocation(position) {
 
 function search() {
     //search using input from search bar and decide whether city input or radius input is used
+    queryInput = "";
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
     city = cityInputEl.val();
-    let queryInput;
     evenDataEl.removeClass('d-none')
-    if(city === null && radius !== '0') {
+    if (city === "" && radius !== '0') {
         //search by radius
         getLocation();
         return;
     }
-    else if(radius === '0' && city !== '') {
+    else if (radius === '0' && city !== "") {
         queryInput = keywordTag + keyword + cityTag + city;
     }
     else {
         queryInput = keywordTag + keyword;
     }
-    ticketmasterCall(queryInput);
+    ticketmasterCall();
 }
 
 //render the results to screen using results which is an array of objects
@@ -122,7 +152,8 @@ function renderResults(results) {
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
     
     eventTableBody.empty(eventTableBody); // clears previous searches
-    
+   
+  if(results !== null) {
     //creates a new row, and fills it with information from event array
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
@@ -155,10 +186,8 @@ function renderResults(results) {
         tableRow.append(covidCasesNum);
         tableRow.append(covidInfoBtnCol);
         eventTableBody.append(tableRow);
-        
-        
     }
-
+  }   
 }
 
 function goNextPage(event) {
@@ -168,5 +197,5 @@ function goNextPage(event) {
 }
 
 submitButtonRadiusEl.on('click', search);
-
+getCounty(95355);
 
