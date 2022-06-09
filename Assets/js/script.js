@@ -82,7 +82,12 @@ function ticketmasterCall() {
             console.log(data);
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
             renderResults(queryData);
+            renderPagination(data.page)
         });
+}
+
+function renderPagination(pagaData) {
+    
 }
 
 function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
