@@ -86,8 +86,25 @@ function ticketmasterCall() {
         });
 }
 
-function renderPagination(pagaData) {
-    
+function renderPagination(pageData) {
+    let paginationUL = $("#paginationUL");
+    let pageNum = pageData.totalPages;
+    paginationUL.empty(paginationUL)
+    paginationUL.prepend("<li class='page-item'><a class='page-link' href='#'>Previous</a></li>")
+    if (pageNum > 5) {
+        for (let i = 0; i < 5; i++) {
+            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i+1}</a></li>`)
+        }
+        paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>...</a></li>`)
+        for (let i = 0; i < 3; i++) {
+            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i +pageNum -2}</a></li>`)
+        }
+    } else {
+        for (let i =0; i < pageNum; i++) {
+            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i+1}</a></li>`)
+        }
+    }
+    paginationUL.append("<li class='page-item'><a class='page-link' href='#'>Next</a></li>")
 }
 
 function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
