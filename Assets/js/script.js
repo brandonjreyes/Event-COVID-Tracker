@@ -188,7 +188,7 @@ function renderResults(results) {
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-        let covidCasesNum = $("<td></td>").text('Filler COVID #s');
+        
         
         
         // add covid info button
@@ -197,7 +197,7 @@ function renderResults(results) {
         
         covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
         covidInfoBtn.attr('type', "button");
-        covidInfoBtn.text("More info");
+        covidInfoBtn.text("COVID INFO");
 
         // for every specific button
         covidInfoBtn.on('click', goNewPage);
@@ -210,7 +210,6 @@ function renderResults(results) {
         tableRow.append(favoriteStar);
         tableRow.append(eventName);
         tableRow.append(eventDate);
-        tableRow.append(covidCasesNum);
         tableRow.append(covidInfoBtnCol);
         eventTableBody.append(tableRow);
     }
