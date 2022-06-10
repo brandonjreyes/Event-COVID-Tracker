@@ -139,6 +139,7 @@ function covidAPICall(fipsCode) {   //takes fipsCode and gets data
     .then(response => response.json())
     .then(function(data) {
         console.log(data);
+        renderCovidModal(data);
     });
 }
 
@@ -254,6 +255,7 @@ function goNewPage(event) {
 $(document).on('click','.covid-btn',function() {
     let zipcode = $(this).data('zipcode');
     console.log(zipcode);
+    getCounty(zipcode);
 });
 
 submitButtonRadiusEl.on('click', search);
