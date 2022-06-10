@@ -259,5 +259,4 @@ $(document).on('click','.covid-btn',function() {
     getCounty(zipcode);
 });
 
-submitButtonRadiusEl.on('click', search);
 getCounty(95355);
