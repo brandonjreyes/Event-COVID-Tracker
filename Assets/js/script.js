@@ -208,6 +208,8 @@ function renderResults(results) {
         
         covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
         covidInfoBtn.attr('type', "button");
+        covidInfoBtn.attr('data-mdb-toggle', "modal")
+        covidInfoBtn.attr('data-mdb-target', "#covidModal")
         covidInfoBtn.data('zipcode',zipcode);
         covidInfoBtn.text("COVID INFO");
 
@@ -228,17 +230,29 @@ function renderResults(results) {
 
 function renderCovidModal(data) {
     let countyName = data.county;
-
+    let countyNameEl = $('<span>');
+    countyNameEl.text("Covid Data For: " + countyName);
+    let covidDataHeader = $('#covidDataLabel');
+    covidDataHeader.empty();
+    covidDataHeader.append(countyNameEl);
+    countyStatsEl = $('#countyStats');
+    countyStatsEl.empty()
+    countyStatsUl = $("<ul>")
     let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
-    let casesMetricDesc = 'New cases per 100k population over the last week:';
-
+    let casesMetricDesc = 'New cases per 100k population over the last week: ';
+    $(countyStatsUl).append("<li>" + casesMetricDesc + casesMetric + "</li>");
     let covidAdmissions = data.metrics.weeklyCovidAdmissionsPer100k; //Number of COVID patients per 100k population admitted in the last week.
-    let covidAdmissionsDesc = 'Number of COVID patients per 100k population admitted in the last week:';
-
-    let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
+    let covidAdmissionsDesc = 'COVID patients per 100k pop admitted in the last week: ';
+    $(countyStatsUl).append("<li>" + covidAdmissionsDesc + covidAdmissions + "</li>");
     let population = data.population;   //population of county
-    let vaxCompleted = population * vaxRatio;   //Number of people that have completed vaccination.
-    let vaxCompletedDesc = 'Number of people vaccinated fully:';
+    let populationDesc = 'Population of County: '
+    $(countyStatsUl).append("<li>" + populationDesc + population + "</li>");
+    let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
+    let vaxCompleted = vaxRatio * 100;   //Percentage of people that have completed vaccination.
+    let vaxCompletedDesc = 'Percentage of people vaccinated fully: ';
+    $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted + "%" + "</li>");
+    countyStatsEl.append(countyStatsUl)
+
 }
 
 smlScrn(sml)
@@ -258,4 +272,4 @@ $(document).on('click','.covid-btn',function() {
 });
 
 submitButtonRadiusEl.on('click', search);
-getCounty(95355);
+// getCounty(95355);

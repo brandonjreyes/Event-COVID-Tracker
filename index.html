@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div class="fw-bold fontSizing">Or search by distance from your current location</div>
-                <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0" step="5"
-                    oninput="rangValfunc(this.value)" />
+                <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0"
+                    step="5" oninput="rangValfunc(this.value)" />
                 <output id="rangeVal" class="fontSizing">0 miles</output>
                 <button type="button" class="my-1 btn btn-primary fontSizing w-100" id="submitButtonRadius">
                     <i class="fas fa-search"></i>
@@ -52,7 +52,8 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col"><button type='button' class='btn btn-floating' disabled><i class='fa-regular fa-star'></i></th>
+                        <th scope="col"><button type='button' class='btn btn-floating' disabled><i
+                                    class='fa-regular fa-star'></i></th>
                         <th scope="col">Event</th>
                         <th scope="col">Date</th>
                         <th scope="col">COVID Info</th>
@@ -65,8 +66,24 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" id="paginationUL">
                 </ul>
-              </nav>
+            </nav>
         </section>
+        <!-- Modal -->
+        <div class="modal fade" id="covidModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="covidDataLabel"></h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="countyStats">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./Assets/js/jquery-3.6.0.min.js"></script>
     <!-- MDB -->
