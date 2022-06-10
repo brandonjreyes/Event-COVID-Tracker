@@ -282,6 +282,7 @@ $(document).on('click','.covid-btn',function() {
 
 
 $(document).on('click','#favorites',saveFaveFun);
+$(document).on('click','#favorites',renderFavorites);
 
 function saveFaveFun() {
     let name = $(this).data('eventName')
@@ -289,8 +290,36 @@ function saveFaveFun() {
     let date = $(this).data('eventDate')
     let id = $(this).data('eventID')
     let url = $(this).data('eventURL')
-    savedFavorites[id] = [name,city,date,url]
-    localStorage.setItem('storedFavorites', JSON.stringify(savedFavorites));
+    lastInput[id] = [name,city,date,url]
+    localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
+}
+
+let lastInput = JSON.parse(localStorage.getItem("storedFavorites"));
+let faveEl = $("#savedFavorites");
+
+if (lastInput != null) {
+    renderFavorites()
+} else {
+    lastInput={};
+    faveEl.text("Add your favorites!")
+}
+
+function renderFavorites() {
+    faveEl.empty(faveEl);
+    for (let x in lastInput) {
+        let listEl = $("<li></li>");
+        listEl.append($("<a href=''></a>").text(lastInput[x][0]).attr("href",lastInput[x][3]))
+        faveEl.append(listEl);
+      }
+}
+
+$("#clearBtn").on("click", clearFavorites)
+
+function clearFavorites() {
+    faveEl.empty(faveEl);
+    lastInput={};
+    faveEl.text("Add your favorites!")
+    localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
 
 submitButtonRadiusEl.on('click', search);
