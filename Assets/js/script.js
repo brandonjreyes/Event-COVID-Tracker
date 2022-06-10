@@ -47,7 +47,8 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
-let tableRowEl = $('.table-row');
+
+let covidInfoBtnEl = $('.covid-btn');
 
 const options = {
     method: 'GET'
@@ -145,31 +146,71 @@ function search() {
 
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
+    
     console.log();
 
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
     
     eventTableBody.empty(eventTableBody); // clears previous searches
-    
-    if(results !== null) {
-        //creates a new row, and fills it with information from event array
-        for (let i = 0; i < results.events.length; i++) {
-            let tableRow = $("<tr></tr>")
-            let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+   
+  if(results !== null) {
+    //creates a new row, and fills it with information from event array
+    for (let i = 0; i < results.events.length; i++) {
+        let tableRow = $("<tr></tr>")
+        let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
 
-            let eventURL= $("<a target='blank' href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
-            let eventName = $("<td></td>").append(eventURL);
-            let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-            eventName.addClass('table-row');
-            tableRow.append(rowHeader);
-            tableRow.append(eventName);
-            tableRow.append(eventDate);
-            eventTableBody.append(tableRow);
+        let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
+        let eventName = $("<td></td>").append(eventURL);
+        let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
+        let covidCasesNum = $("<td></td>").text('Filler COVID #s');
+        
+        
+        // add covid info button
+        let covidInfoBtnCol = $("<td></td>")
+        let covidInfoBtn = $("<button></button>")
+        
+        covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
+        covidInfoBtn.attr('type', "button");
+        covidInfoBtn.text("More info");
 
-        }
+        // for every specific button
+        covidInfoBtn.on('click', goNextPage);
+
+        covidInfoBtnCol.append(covidInfoBtn);
+
+
+        eventName.addClass('table-row');
+        tableRow.append(rowHeader);
+        tableRow.append(eventName);
+        tableRow.append(eventDate);
+        tableRow.append(covidCasesNum);
+        tableRow.append(covidInfoBtnCol);
+        eventTableBody.append(tableRow);
     }
+  }   
+}
 
+function renderCovidModal(data) {
+    let countyName = data.county;
+
+    let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
+    let casesMetricDesc = 'New cases per 100k population over the last week:';
+
+    let covidAdmissions = data.metrics.weeklyCovidAdmissionsPer100k; //Number of COVID patients per 100k population admitted in the last week.
+    let covidAdmissionsDesc = 'Number of COVID patients per 100k population admitted in the last week:';
+
+    let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
+    let population = data.population;   //population of county
+    let vaxCompleted = population * vaxRatio;   //Number of people that have completed vaccination.
+    let vaxCompletedDesc = 'Number of people vaccinated fully:';
+}
+
+function goNextPage(event) {
+    event.preventDefault();
+    console.log("button clicked");
+    location.href = "concertSelect.html";
 }
 
 submitButtonRadiusEl.on('click', search);
 getCounty(95355);
+
