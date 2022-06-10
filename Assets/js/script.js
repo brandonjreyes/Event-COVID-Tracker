@@ -29,8 +29,11 @@ const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
 const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
-const sizeTag = '&size=';
 
+const searchBarEl = $("#searchBar")
+const sml = window.matchMedia("(max-width: 1000px)")
+=======
+const sizeTag = '&size=';
 let keyword = "";
 let radius = "";
 let city = "";
@@ -47,6 +50,18 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
+
+
+function smlScrn(sml) {
+    if (sml.matches) {
+        $(searchBarEl).removeClass("w-25")
+        $(searchBarEl).addClass("w-100");
+
+    }else{
+        $(searchBarEl).addClass("w-25");
+        $(searchBarEl).removeClass("w-100")
+    }
+}
 
 let covidInfoBtnEl = $('.covid-btn');
 
@@ -218,6 +233,10 @@ function renderCovidModal(data) {
     let vaxCompletedDesc = 'Number of people vaccinated fully:';
 }
 
+smlScrn(sml)
+sml.addListener(smlScrn)
+submitButtonRadiusEl.on('click', search);
+
 function goNewPage(event) { 
     event.preventDefault();
     console.log("button clicked");
@@ -226,4 +245,3 @@ function goNewPage(event) {
 
 submitButtonRadiusEl.on('click', search);
 getCounty(95355);
-

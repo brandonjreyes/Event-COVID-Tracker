@@ -1,0 +1,56 @@
+body {
+    background-image: url("../images/homeScreenBackground.jpg");
+    height: 100vh;
+    width: 100vw;
+    color: rgb(0, 0, 0);
+}
+#searchBar {
+    background-color: rgba(255, 255, 255, 0.5); 
+    max-height: 25vh;
+}
+
+#submitButtonRadius{
+    height: 4vh;
+    width: 15vw;
+}
+#range {
+    width: 12vw
+}
+.fontSizing {
+    font-size: 1vw;
+}
+#eventData {
+    background-color: rgba(255, 255, 255, 0.5); 
+}
+/* @media (max-width: 1000px) {
+    /* #searchBar {
+        max-height: 38vh
+    }
+    .fontSizing{
+        font-size: 1.5vw;
+    }
+} */
+@media (max-width: 1000px) {
+    #bckGrnd {
+        display: block;
+        padding: 0%;
+    }
+    #searchBar {
+        display: block;
+        max-width: 40vw;
+        max-height: 57vh;
+        
+    }
+    #eventData {
+        display: block;
+    }
+    .fontSizing {
+        font-size: 1.5vh;
+    }
+    #searchContainer {
+        padding: 0%;
+    }
+    body {
+        display: block;
+    }
+}
