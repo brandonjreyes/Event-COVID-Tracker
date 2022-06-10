@@ -51,6 +51,8 @@ let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
 
+let savedFavorites = {}
+
 
 function smlScrn(sml) {
     if (sml.matches) {
@@ -201,7 +203,12 @@ function renderResults(results) {
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
         
-        
+        favoriteStar.attr('id','favorites')
+        favoriteStar.data('eventName',results.events[i].name)
+        .data('eventCity',results.events[i]._embedded.venues[0].city.name)
+        .data('eventDate',results.events[i].dates.start.localDate)
+        .data('eventURL',results.events[i].url)
+        .data('eventID', results.events[i].id);
         let zipcode = results.events[i]._embedded.venues[0].postalCode;
         
         // add covid info button
@@ -259,4 +266,17 @@ $(document).on('click','.covid-btn',function() {
     getCounty(zipcode);
 });
 
-getCounty(95355);
+
+$(document).on('click','#favorites',saveFaveFun);
+
+function saveFaveFun() {
+    let name = $(this).data('eventName')
+    let city = $(this).data('eventCity')
+    let date = $(this).data('eventDate')
+    let id = $(this).data('eventID')
+    let url = $(this).data('eventURL')
+    savedFavorites[id] = [name,city,date,url]
+    localStorage.setItem('storedFavorites', JSON.stringify(savedFavorites));
+}
+
+submitButtonRadiusEl.on('click', search);
