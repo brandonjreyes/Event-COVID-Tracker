@@ -82,8 +82,20 @@ function ticketmasterCall() {
             console.log(data);
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
             renderResults(queryData);
+            renderPagination(data.page)
         });
 }
+
+function renderPagination(pageData) {
+    let paginationUL = $("#paginationUL");
+    paginationUL.empty(paginationUL)
+    paginationUL.append("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id","prevBtn")
+    paginationUL.append("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id","nextBtn")
+    $("#prevBtn").on("click",previousPage);
+    $("#nextBtn").on("click",nextPage);
+}
+
+
 
 function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
     let fipsCode = '';
@@ -174,7 +186,7 @@ function renderResults(results) {
         covidInfoBtn.text("More info");
 
         // for every specific button
-        covidInfoBtn.on('click', goNextPage);
+        covidInfoBtn.on('click', goNewPage);
 
         covidInfoBtnCol.append(covidInfoBtn);
 
@@ -189,6 +201,7 @@ function renderResults(results) {
     }
   }   
 }
+
 
 function renderCovidModal(data) {
     let countyName = data.county;
@@ -205,7 +218,7 @@ function renderCovidModal(data) {
     let vaxCompletedDesc = 'Number of people vaccinated fully:';
 }
 
-function goNextPage(event) {
+function goNewPage(event) { 
     event.preventDefault();
     console.log("button clicked");
     location.href = "concertSelect.html";
