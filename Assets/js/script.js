@@ -188,7 +188,7 @@ function renderResults(results) {
     
     eventTableBody.empty(eventTableBody); // clears previous searches
    
-    
+    tableCount = page * 15 + 1;
 
   if(results !== null) {
     //creates a new row, and fills it with information from event array
