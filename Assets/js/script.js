@@ -178,7 +178,6 @@ function search() {
         //literally nothing, give error to have user enter input
     }
 }
-
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
     
@@ -188,11 +187,13 @@ function renderResults(results) {
     
     eventTableBody.empty(eventTableBody); // clears previous searches
    
+    
+
   if(results !== null) {
     //creates a new row, and fills it with information from event array
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
-        let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+        let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
         let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
