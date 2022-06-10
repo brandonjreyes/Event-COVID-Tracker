@@ -308,7 +308,8 @@ function renderFavorites() {
     faveEl.empty(faveEl);
     for (let x in lastInput) {
         let listEl = $("<li></li>");
-        listEl.append($("<a href=''></a>").text(lastInput[x][0]).attr("href",lastInput[x][3]))
+        let listURL = $("<a href=''></a>").text(lastInput[x][0]).attr("href",lastInput[x][3]).attr("target","_blank")
+        listEl.append(listURL)
         faveEl.append(listEl);
       }
 }
@@ -317,7 +318,7 @@ $("#clearBtn").on("click", clearFavorites)
 
 function clearFavorites() {
     faveEl.empty(faveEl);
-    lastInput={};
+    lastInput={}
     faveEl.text("Add your favorites!")
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
