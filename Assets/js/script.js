@@ -190,6 +190,21 @@ function renderResults(results) {
   }   
 }
 
+function renderCovidModal(data) {
+    let countyName = data.county;
+
+    let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
+    let casesMetricDesc = 'New cases per 100k population over the last week:';
+
+    let covidAdmissions = data.metrics.weeklyCovidAdmissionsPer100k; //Number of COVID patients per 100k population admitted in the last week.
+    let covidAdmissionsDesc = 'Number of COVID patients per 100k population admitted in the last week:';
+
+    let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
+    let population = data.population;   //population of county
+    let vaxCompleted = population * vaxRatio;   //Number of people that have completed vaccination.
+    let vaxCompletedDesc = 'Number of people vaccinated fully:';
+}
+
 function goNextPage(event) {
     event.preventDefault();
     console.log("button clicked");
