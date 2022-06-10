@@ -38,6 +38,7 @@ let radius = "";
 let city = "";
 let latlon = "";
 let page = 0;
+let totalPages;
 let queryInput = "";
 let queryData = [];
 
@@ -75,13 +76,16 @@ function rangValfunc(val) {
 
 function nextPage() {   //increment page, requery
     page++;
+    if(page === totalPages) {
+        page--;
+    }
     ticketmasterCall();
 }
 
 function previousPage() {   //decrement page, requery
     page--;
-    if (page < 1) {
-        page = 1;
+    if (page < 0) {
+        page = 0;
     }
     ticketmasterCall();
 }
@@ -94,6 +98,7 @@ function ticketmasterCall() {
         })
         .then(function (data) {
             console.log(data);
+            totalPages = data.page.totalPages;
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
             renderResults(queryData);
             renderPagination(data.page);
@@ -103,8 +108,10 @@ function ticketmasterCall() {
 function renderPagination(pageData) {
     let paginationUL = $("#paginationUL");
     paginationUL.empty(paginationUL);
-    paginationUL.append("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id","prevBtn");
-    paginationUL.append("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id","nextBtn");
+    paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id","prevBtn"));
+    paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id","nextBtn"));
+    $("#prevBtn").on("click",previousPage);
+    $("#nextBtn").on("click",nextPage);
 }
 
 
@@ -247,9 +254,6 @@ $(document).on('click','.covid-btn',function() {
     let zipcode = $(this).data('zipcode');
     console.log(zipcode);
 });
-
-$("#prevBtn").on("click",previousPage);
-$("#nextBtn").on("click",nextPage);
 
 submitButtonRadiusEl.on('click', search);
 getCounty(95355);
