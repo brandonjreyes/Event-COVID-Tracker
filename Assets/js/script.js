@@ -181,7 +181,6 @@ function search() {
         //literally nothing, give error to have user enter input
     }
 }
-
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
     
@@ -191,13 +190,16 @@ function renderResults(results) {
     
     eventTableBody.empty(eventTableBody); // clears previous searches
    
+    tableCount = page * 15 + 1;
+
   if(results !== null) {
     //creates a new row, and fills it with information from event array
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
-        let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
+        let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
         let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
+        eventURL.attr("target","_blank");
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
         
@@ -264,6 +266,7 @@ $(document).on('click','.covid-btn',function() {
     getCounty(zipcode);
 });
 
+
 $(document).on('click','#favorites',saveFaveFun);
 
 function saveFaveFun() {
@@ -277,4 +280,3 @@ function saveFaveFun() {
 }
 
 submitButtonRadiusEl.on('click', search);
-getCounty(95355);
