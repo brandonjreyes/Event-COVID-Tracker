@@ -88,24 +88,14 @@ function ticketmasterCall() {
 
 function renderPagination(pageData) {
     let paginationUL = $("#paginationUL");
-    let pageNum = pageData.totalPages;
     paginationUL.empty(paginationUL)
-    paginationUL.prepend("<li class='page-item'><a class='page-link' href='#'>Previous</a></li>")
-    if (pageNum > 5) {
-        for (let i = 0; i < 5; i++) {
-            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i+1}</a></li>`)
-        }
-        paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>...</a></li>`)
-        for (let i = 0; i < 3; i++) {
-            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i +pageNum -2}</a></li>`)
-        }
-    } else {
-        for (let i =0; i < pageNum; i++) {
-            paginationUL.append(`<li class='page-item'><a class='page-link' href='#'>${i+1}</a></li>`)
-        }
-    }
-    paginationUL.append("<li class='page-item'><a class='page-link' href='#'>Next</a></li>")
+    paginationUL.append("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id","prevBtn")
+    paginationUL.append("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id","nextBtn")
+    $("#prevBtn").on("click",previousPage);
+    $("#nextBtn").on("click",nextPage);
 }
+
+
 
 function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
     let fipsCode = '';
@@ -196,7 +186,7 @@ function renderResults(results) {
         covidInfoBtn.text("More info");
 
         // for every specific button
-        covidInfoBtn.on('click', goNextPage);
+        covidInfoBtn.on('click', goNewPage);
 
         covidInfoBtnCol.append(covidInfoBtn);
 
@@ -212,7 +202,7 @@ function renderResults(results) {
   }   
 }
 
-function goNextPage(event) {
+function goNewPage(event) { 
     event.preventDefault();
     console.log("button clicked");
     location.href = "concertSelect.html";
