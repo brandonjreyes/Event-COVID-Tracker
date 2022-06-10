@@ -247,7 +247,8 @@ function goNewPage(event) {
 
 $(document).on('click','.covid-btn',function() {
     let zipcode = $(this).data('zipcode');
-})
+    console.log(zipcode);
+});
 
 submitButtonRadiusEl.on('click', search);
 getCounty(95355);
