@@ -184,7 +184,7 @@ function renderResults(results) {
     for (let i = 0; i < results.events.length; i++) {
         let tableRow = $("<tr></tr>")
         let rowHeader = $("<th></th>").attr('scope', 'row').text(i + 1);
-
+        let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
         let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
         let eventName = $("<td></td>").append(eventURL);
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
@@ -207,6 +207,7 @@ function renderResults(results) {
 
         eventName.addClass('table-row');
         tableRow.append(rowHeader);
+        tableRow.append(favoriteStar);
         tableRow.append(eventName);
         tableRow.append(eventDate);
         tableRow.append(covidCasesNum);
