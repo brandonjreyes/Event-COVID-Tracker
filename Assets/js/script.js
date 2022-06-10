@@ -190,6 +190,7 @@ function renderResults(results) {
         let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
         
         
+        let zipcode = results.events[i]._embedded.venues[0].postalCode;
         
         // add covid info button
         let covidInfoBtnCol = $("<td></td>")
@@ -197,6 +198,7 @@ function renderResults(results) {
         
         covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
         covidInfoBtn.attr('type', "button");
+        covidInfoBtn.data('zipcode',zipcode);
         covidInfoBtn.text("COVID INFO");
 
         // for every specific button
@@ -241,6 +243,11 @@ function goNewPage(event) {
     console.log("button clicked");
     location.href = "concertSelect.html";
 }
+
+$(document).on('click','.covid-btn',function() {
+    let zipcode = $(this).data('zipcode');
+    console.log(zipcode);
+});
 
 submitButtonRadiusEl.on('click', search);
 getCounty(95355);
