@@ -32,7 +32,6 @@ const pageTag = '&page=';
 
 const searchBarEl = $("#searchBar")
 const sml = window.matchMedia("(max-width: 1000px)")
-=======
 const sizeTag = '&size=';
 let keyword = "";
 let radius = "";
