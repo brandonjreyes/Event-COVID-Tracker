@@ -29,10 +29,13 @@ const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
 const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
-
 const searchBarEl = $("#searchBar")
 const sml = window.matchMedia("(max-width: 1000px)")
 const sizeTag = '&size=';
+const countyNameEl = $('<span>');
+const covidDataHeader = $('#covidDataLabel');
+const countyStatsEl = $('#countyStats');
+
 let keyword = "";
 let radius = "";
 let city = "";
@@ -177,7 +180,7 @@ function search() {
         queryInput = keywordTag + keyword;
         ticketmasterCall();
     }
-    else {
+    else if(keyword ==='' && radius === '0' && city === ""){
         //literally nothing, give error to have user enter input
     }
 }
@@ -236,15 +239,16 @@ function renderResults(results) {
   }   
 }
 
+function emptyInput(data){
+    covidDataHeader.text("UH OH")
+    console.log('im hit');
+}
 
 function renderCovidModal(data) {
     let countyName = data.county;
-    let countyNameEl = $('<span>');
     countyNameEl.text("Covid Data For: " + countyName);
-    let covidDataHeader = $('#covidDataLabel');
     covidDataHeader.empty();
     covidDataHeader.append(countyNameEl);
-    countyStatsEl = $('#countyStats');
     countyStatsEl.empty()
     countyStatsUl = $("<ul>")
     let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
