@@ -29,7 +29,8 @@ const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
 const latlongTag = '&latlong=';
 const pageTag = '&page=';
-
+const searchBarEl = $("#searchBar")
+const sml = window.matchMedia("(max-width: 1000px)")
 let keyword = "";
 let radius = "";
 let city = "";
@@ -44,6 +45,17 @@ let keywordInput = $('#eventSearch');
 let submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
+
+function smlScrn(sml) {
+    if (sml.matches) {
+        $(searchBarEl).removeClass("w-25")
+        $(searchBarEl).addClass("w-100");
+
+    }else{
+        $(searchBarEl).addClass("w-25");
+        $(searchBarEl).removeClass("w-100")
+    }
+}
 
 const options = {
     method: 'GET'
@@ -134,5 +146,6 @@ function renderResults(results) {
     }
 
 }
-
+smlScrn(sml)
+sml.addListener(smlScrn)
 submitButtonRadiusEl.on('click', search);

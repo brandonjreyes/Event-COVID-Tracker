@@ -21,17 +21,16 @@ body {
 }
 #eventData {
     background-color: rgba(255, 255, 255, 0.5); 
-    max-height: fit-content
 }
-@media (max-width: 1000px) {
-    #searchBar {
+/* @media (max-width: 1000px) {
+    /* #searchBar {
         max-height: 38vh
     }
     .fontSizing{
         font-size: 1.5vw;
     }
-}
-@media (max-width: 500px) {
+} */
+@media (max-width: 1000px) {
     #bckGrnd {
         display: block;
         padding: 0%;

@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
         <div class="fw-bolder fontSizing"> Event COVID Tracker</div>
     </nav>
-    <div class="d-flex container-fluid mx-5 row">
+    <div class="d-flex container-fluid row justify-content-around">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
         <main id="searchBar" class="d-flex flex-column w-25 my-5 fontSizing rounded-6">
             <div class="justify-content-center align-content-center h-50 container-fluid" id="searchContainer">
@@ -41,13 +41,13 @@
                 <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0" step="5"
                     oninput="rangValfunc(this.value)" />
                 <output id="rangeVal" class="fontSizing">0 miles</output>
-                <button type="button" class="my-1 btn btn-primary fontSizing" id="submitButtonRadius">
+                <button type="button" class="my-1 btn btn-primary fontSizing w-100" id="submitButtonRadius">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </main>
         <!-- add class="d-none" to hide this area initially -->
-        <section class=" d-none flex-column my-5 col-8 rounded-6 " id="eventData">
+        <section class=" d-none flex-column my-5  rounded-6 w-auto" id="eventData">
             <table class="table table-hover">
                 <thead>
                     <tr>
