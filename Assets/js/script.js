@@ -37,6 +37,15 @@ const covidDataHeader = $('#covidDataLabel');
 const countyStatsEl = $('#countyStats');
 const modalEl = $('#covidModal')
 const hiddenBtn = $('#hiddenBtn')
+const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
+const rangeSliderEl = $('#range');
+const cityInputEl = $('#citySearch');
+const keywordInput = $('#eventSearch');
+const submitButtonRadiusEl = $('#submitButtonRadius');
+const evenDataEl = $('#eventData');
+const footerCloseModal = $('#footerCloseModal')
+const headerCloseModal = $('#headerCloseModal')
+
 hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal')
 
 let keyword = "";
@@ -48,14 +57,7 @@ let totalPages;
 let queryInput = "";
 let queryData = [];
 
-const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 
-let rangeSliderEl = $('#range');
-let cityInputEl = $('#citySearch');
-let keywordInput = $('#eventSearch');
-const submitButtonRadiusEl = $('#submitButtonRadius');
-let subitButtonCityEl = $('#submitButtonCity');
-let evenDataEl = $('#eventData');
 
 let savedFavorites = {}
 
@@ -187,7 +189,7 @@ function search() {
     else if (keyword === '' && radius === '0' && city === "") {
         //literally nothing, give error to have user enter input
         displayModalEmptyResults();
-        
+
     }
 }
 //render the results to screen using results which is an array of objects
@@ -244,21 +246,19 @@ function renderResults(results) {
         }
     }
 }
-
 function displayModalEmptyResults() {
     hiddenBtn.click()
     covidDataHeader.text("UH OH")
-    console.log('im hit');
+    countyStatsEl.text("Sorry your search resulted in 0 events please expand your search")
+    footerCloseModal.on('click', emptyModal)
+    headerCloseModal.on('click', emptyModal)
 }
-
 function renderCovidModal(data) {
     console.log(252, data);
     if (data) {
         let countyName = data.county;
         countyNameEl.text("Covid Data For: " + countyName);
-        covidDataHeader.empty();
         covidDataHeader.append(countyNameEl);
-        countyStatsEl.empty()
         countyStatsUl = $("<ul>")
         let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
         let casesMetricDesc = 'New cases per 100k population over the last week: ';
@@ -275,8 +275,14 @@ function renderCovidModal(data) {
         $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted + "%" + "</li>");
         countyStatsEl.append(countyStatsUl)
     }
+    footerCloseModal.on('click', emptyModal)
+    headerCloseModal.on('click', emptyModal)
 }
 
+function emptyModal() {
+    covidDataHeader.empty()
+    countyStatsEl.empty()
+}
 smlScrn(sml)
 sml.addListener(smlScrn)
 submitButtonRadiusEl.on('click', search);
@@ -295,8 +301,8 @@ $(document).on('click', '.covid-btn', function () {
 
 
 $(document).on('click', '#favorites', saveFaveFun);
-$(document).on('click','#favorites',saveFaveFun);
-$(document).on('click','#favorites',renderFavorites);
+$(document).on('click', '#favorites', saveFaveFun);
+$(document).on('click', '#favorites', renderFavorites);
 
 function saveFaveFun() {
     let name = $(this).data('eventName')
@@ -304,7 +310,7 @@ function saveFaveFun() {
     let date = $(this).data('eventDate')
     let id = $(this).data('eventID')
     let url = $(this).data('eventURL')
-    lastInput[id] = [name,city,date,url]
+    lastInput[id] = [name, city, date, url]
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
 
@@ -314,7 +320,7 @@ let faveEl = $("#savedFavorites");
 if (lastInput != null) {
     renderFavorites()
 } else {
-    lastInput={};
+    lastInput = {};
     faveEl.text("Add your favorites!")
 }
 
@@ -322,17 +328,17 @@ function renderFavorites() {
     faveEl.empty(faveEl);
     for (let x in lastInput) {
         let listEl = $("<li></li>");
-        let listURL = $("<a href=''></a>").text(lastInput[x][0]).attr("href",lastInput[x][3]).attr("target","_blank")
+        let listURL = $("<a href=''></a>").text(lastInput[x][0]).attr("href", lastInput[x][3]).attr("target", "_blank")
         listEl.append(listURL)
         faveEl.append(listEl);
-      }
+    }
 }
 
 $("#clearBtn").on("click", clearFavorites)
 
 function clearFavorites() {
     faveEl.empty(faveEl);
-    lastInput={}
+    lastInput = {}
     faveEl.text("Add your favorites!")
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
