@@ -46,19 +46,25 @@ WHEN I click on the star for an event
 THEN I am presented with a list of favorited events
 ```
 
-### Screenshot
+### Screenshots
 ​
-![](./Assets/images/Event-COVID%20search%20page.png)
+#### The beginning of the page
+![screenshot](./Assets/images/Event-COVID%20search%20page.png)
 
-![](./Assets/images/Event-COVID%20results%20page.png)
+#### The results of a search
+![screenshot](./Assets/images/Event-COVID%20results%20page.png)
 
-![](./Assets/images/Event-COVID%20covid%20information.png)
+#### The COVID data of a particular event
+![screenshot](./Assets/images/Event-COVID%20covid%20information.png)
+
+#### Favorites stored in localStorage
+![screenshot](./Assets/images/Event-COVID%20stored%20favorites.PNG)
 
 ### Links
 ​
 - Live Site URL: [Event-COVID-Tracker](https://brandonjreyes.github.io/Event-COVID-Tracker/)
 ​
-## My process
+## Our process
 ​
 ### Built with
 ​
@@ -67,7 +73,7 @@ THEN I am presented with a list of favorited events
 - JQuery
 - MD Bootstrap
 ​
-### What I learned
+### What we learned
 ​
 We learned how to effectively work in a team by collaborative problem solving, initiative to finish tasks, and managing conflicts.  It is a new experience working on a code alongside others and separating tasks and having multiple perspectives aided in the completion of this project.
 
@@ -92,10 +98,9 @@ We aim to implement the skills we learned from this project to real world applic
 ​
 - Website - [Brandon Reyes](https://www.your-site.com)
 - Website - [Andrew Yeh](https://www.your-site.com)
-- Website - [James Montgomery](https://www.your-site.com)
+- Website - [James Montgomery](https://jmonty94.github.io/portfolio/)
 - Website - [Adriane Ocampo](https://ocampoad.github.io/Adriane_Ocampo_Portfolio/)
 
 ## Acknowledgments
 ​
-Shout out to Manny, Luigi and Matthew for helping us resolve our issues
-​
+Shout out to Manny, Luigi, Scott, and Matthew for helping us resolve our issues
