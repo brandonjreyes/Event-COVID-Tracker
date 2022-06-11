@@ -45,6 +45,26 @@
                     <i class="fas fa-search"></i>
                 </button>
                 <button class="d-none" id="hiddenBtn"></button>
+                
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                                data-mdb-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Favorites 
+                            </button>
+                          
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-mdb-parent="#accordionExample">
+                            <div class="accordion-body" >
+                                <ol id="savedFavorites"></ol>
+                                <div type ="button" id="clearBtn">CLEAR SELECTION <i class="fa-solid fa-x"></i> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </main>
         <!-- add class="d-none" to hide this area initially -->
