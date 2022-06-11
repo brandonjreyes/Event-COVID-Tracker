@@ -190,8 +190,8 @@ function renderResults(results) {
     eventCardsContainer.empty();
     tableCount = page * 15 + 1;
 
-    let paginationNav = $(`<nav>`).attr('aria-label','Page navigation example').attr('id','pagination');
-    let paginationUL = $(`<ul>`).addClass('pagination').addClass('justify-content-center').attr('id','paginationUL');
+    let paginationNav = $(`<nav>`).attr('aria-label','Page navigation example').attr('id','pagination').addClass("rounded-6");
+    let paginationUL = $(`<ul>`).addClass('pagination').addClass('justify-content-between').attr('id','paginationUL');
     paginationNav.append(paginationUL);
     eventCardsContainer.append(paginationNav);
 
