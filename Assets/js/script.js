@@ -35,6 +35,9 @@ const sizeTag = '&size=';
 const countyNameEl = $('<span>');
 const covidDataHeader = $('#covidDataLabel');
 const countyStatsEl = $('#countyStats');
+const modalEl = $('#covidModal')
+const hiddenBtn = $('#hiddenBtn')
+hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal')
 
 let keyword = "";
 let radius = "";
@@ -50,7 +53,7 @@ const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 let rangeSliderEl = $('#range');
 let cityInputEl = $('#citySearch');
 let keywordInput = $('#eventSearch');
-let submitButtonRadiusEl = $('#submitButtonRadius');
+const submitButtonRadiusEl = $('#submitButtonRadius');
 let subitButtonCityEl = $('#submitButtonCity');
 let evenDataEl = $('#eventData');
 
@@ -62,7 +65,7 @@ function smlScrn(sml) {
         $(searchBarEl).removeClass("w-25")
         $(searchBarEl).addClass("w-100");
 
-    }else{
+    } else {
         $(searchBarEl).addClass("w-25");
         $(searchBarEl).removeClass("w-100")
     }
@@ -81,7 +84,7 @@ function rangValfunc(val) {
 
 function nextPage() {   //increment page, requery
     page++;
-    if(page === totalPages) {
+    if (page === totalPages) {
         page--;
     }
     ticketmasterCall();
@@ -113,10 +116,10 @@ function ticketmasterCall() {
 function renderPagination(pageData) {
     let paginationUL = $("#paginationUL");
     paginationUL.empty(paginationUL);
-    paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id","prevBtn"));
-    paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id","nextBtn"));
-    $("#prevBtn").on("click",previousPage);
-    $("#nextBtn").on("click",nextPage);
+    paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id", "prevBtn"));
+    paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id", "nextBtn"));
+    $("#prevBtn").on("click", previousPage);
+    $("#nextBtn").on("click", nextPage);
 }
 
 
@@ -130,22 +133,22 @@ function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
             'X-RapidAPI-Key': 'dff04c7643mshdf131b4c950b3bcp1de78bjsnebeba2fbf878'
         }
     };
-    
+
     fetch(`https://us-zip-code-lookup.p.rapidapi.com/getZip?zip=${zipCode}`, options)
-    .then(response => response.json())
-    .then(function(data) {
-        fipsCode = data.Data[0].StateFIPS + data.Data[0].CountyFIPS;    //makes fips code
-        covidAPICall(fipsCode);
-    });
+        .then(response => response.json())
+        .then(function (data) {
+            fipsCode = data.Data[0].StateFIPS + data.Data[0].CountyFIPS;    //makes fips code
+            covidAPICall(fipsCode);
+        });
 }
 
 function covidAPICall(fipsCode) {   //takes fipsCode and gets data
     fetch(`https://api.covidactnow.org/v2/county/${fipsCode}.json?apiKey=${covidAPIKey}`)
-    .then(response => response.json())
-    .then(function(data) {
-        console.log(data);
-        renderCovidModal(data);
-    });
+        .then(response => response.json())
+        .then(function (data) {
+            console.log(data);
+            renderCovidModal(data);
+        });
 }
 
 function getLocation() {
@@ -161,6 +164,7 @@ function stringifyLocation(position) {
 }
 
 function search() {
+    console.log("searching");
     //search using input from search bar and decide whether city input or radius input is used
     queryInput = "";
     radius = rangeSliderEl.val(); //grab radius from slider
@@ -176,116 +180,121 @@ function search() {
         queryInput = keywordTag + keyword + cityTag + city;
         ticketmasterCall();
     }
-    else if(keyword !== '') {
+    else if (keyword !== '') {
         queryInput = keywordTag + keyword;
         ticketmasterCall();
     }
-    else if(keyword ==='' && radius === '0' && city === ""){
+    else if (keyword === '' && radius === '0' && city === "") {
         //literally nothing, give error to have user enter input
+        displayModalEmptyResults();
+        
     }
 }
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
-    
+
     console.log();
 
     let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
-    
+
     eventTableBody.empty(eventTableBody); // clears previous searches
-   
+
     tableCount = page * 15 + 1;
 
-  if(results !== null) {
-    //creates a new row, and fills it with information from event array
-    for (let i = 0; i < results.events.length; i++) {
-        let tableRow = $("<tr></tr>")
-        let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
-        let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
-        let eventURL= $("<a href=''><</a>").text(results.events[i].name).attr("href",results.events[i].url);
-        eventURL.attr("target","_blank");
-        let eventName = $("<td></td>").append(eventURL);
-        let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-        
-        favoriteStar.attr('id','favorites')
-        favoriteStar.data('eventName',results.events[i].name)
-        .data('eventCity',results.events[i]._embedded.venues[0].city.name)
-        .data('eventDate',results.events[i].dates.start.localDate)
-        .data('eventURL',results.events[i].url)
-        .data('eventID', results.events[i].id);
-        let zipcode = results.events[i]._embedded.venues[0].postalCode;
-        
-        // add covid info button
-        let covidInfoBtnCol = $("<td></td>")
-        let covidInfoBtn = $("<button></button>")
-        
-        covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
-        covidInfoBtn.attr('type', "button");
-        covidInfoBtn.attr('data-mdb-toggle', "modal")
-        covidInfoBtn.attr('data-mdb-target', "#covidModal")
-        covidInfoBtn.data('zipcode',zipcode);
-        covidInfoBtn.text("COVID INFO");
+    if (results !== null) {
+        //creates a new row, and fills it with information from event array
+        for (let i = 0; i < results.events.length; i++) {
+            let tableRow = $("<tr></tr>")
+            let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
+            let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
+            let eventURL = $("<a href=''><</a>").text(results.events[i].name).attr("href", results.events[i].url);
+            eventURL.attr("target", "_blank");
+            let eventName = $("<td></td>").append(eventURL);
+            let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
 
-        covidInfoBtnCol.append(covidInfoBtn);
+            favoriteStar.attr('id', 'favorites')
+            favoriteStar.data('eventName', results.events[i].name)
+                .data('eventCity', results.events[i]._embedded.venues[0].city.name)
+                .data('eventDate', results.events[i].dates.start.localDate)
+                .data('eventURL', results.events[i].url)
+                .data('eventID', results.events[i].id);
+            let zipcode = results.events[i]._embedded.venues[0].postalCode;
+
+            // add covid info button
+            let covidInfoBtnCol = $("<td></td>")
+            let covidInfoBtn = $("<button></button>")
+
+            covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
+            covidInfoBtn.attr('type', "button");
+            covidInfoBtn.attr('data-mdb-toggle', "modal")
+            covidInfoBtn.attr('data-mdb-target', "#covidModal")
+            covidInfoBtn.data('zipcode', zipcode);
+            covidInfoBtn.text("COVID INFO");
+
+            covidInfoBtnCol.append(covidInfoBtn);
 
 
-        eventName.addClass('table-row');
-        tableRow.append(rowHeader);
-        tableRow.append(favoriteStar);
-        tableRow.append(eventName);
-        tableRow.append(eventDate);
-        tableRow.append(covidInfoBtnCol);
-        eventTableBody.append(tableRow);
+            eventName.addClass('table-row');
+            tableRow.append(rowHeader);
+            tableRow.append(favoriteStar);
+            tableRow.append(eventName);
+            tableRow.append(eventDate);
+            tableRow.append(covidInfoBtnCol);
+            eventTableBody.append(tableRow);
+        }
     }
-  }   
 }
 
-function emptyInput(data){
+function displayModalEmptyResults() {
+    hiddenBtn.click()
     covidDataHeader.text("UH OH")
     console.log('im hit');
 }
 
 function renderCovidModal(data) {
-    let countyName = data.county;
-    countyNameEl.text("Covid Data For: " + countyName);
-    covidDataHeader.empty();
-    covidDataHeader.append(countyNameEl);
-    countyStatsEl.empty()
-    countyStatsUl = $("<ul>")
-    let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
-    let casesMetricDesc = 'New cases per 100k population over the last week: ';
-    $(countyStatsUl).append("<li>" + casesMetricDesc + casesMetric + "</li>");
-    let covidAdmissions = data.metrics.weeklyCovidAdmissionsPer100k; //Number of COVID patients per 100k population admitted in the last week.
-    let covidAdmissionsDesc = 'COVID patients per 100k pop admitted in the last week: ';
-    $(countyStatsUl).append("<li>" + covidAdmissionsDesc + covidAdmissions + "</li>");
-    let population = data.population;   //population of county
-    let populationDesc = 'Population of County: '
-    $(countyStatsUl).append("<li>" + populationDesc + population + "</li>");
-    let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
-    let vaxCompleted = vaxRatio * 100;   //Percentage of people that have completed vaccination.
-    let vaxCompletedDesc = 'Percentage of people vaccinated fully: ';
-    $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted + "%" + "</li>");
-    countyStatsEl.append(countyStatsUl)
-
+    console.log(252, data);
+    if (data) {
+        let countyName = data.county;
+        countyNameEl.text("Covid Data For: " + countyName);
+        covidDataHeader.empty();
+        covidDataHeader.append(countyNameEl);
+        countyStatsEl.empty()
+        countyStatsUl = $("<ul>")
+        let casesMetric = data.metrics.weeklyNewCasesPer100k;   //The number of new cases per 100k population over the last week.
+        let casesMetricDesc = 'New cases per 100k population over the last week: ';
+        $(countyStatsUl).append("<li>" + casesMetricDesc + casesMetric + "</li>");
+        let covidAdmissions = data.metrics.weeklyCovidAdmissionsPer100k; //Number of COVID patients per 100k population admitted in the last week.
+        let covidAdmissionsDesc = 'COVID patients per 100k pop admitted in the last week: ';
+        $(countyStatsUl).append("<li>" + covidAdmissionsDesc + covidAdmissions + "</li>");
+        let population = data.population;   //population of county
+        let populationDesc = 'Population of County: '
+        $(countyStatsUl).append("<li>" + populationDesc + population + "</li>");
+        let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
+        let vaxCompleted = vaxRatio * 100;   //Percentage of people that have completed vaccination.
+        let vaxCompletedDesc = 'Percentage of people vaccinated fully: ';
+        $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted + "%" + "</li>");
+        countyStatsEl.append(countyStatsUl)
+    }
 }
 
 smlScrn(sml)
 sml.addListener(smlScrn)
 submitButtonRadiusEl.on('click', search);
 
-function goNewPage(event) { 
+function goNewPage(event) {
     event.preventDefault();
     console.log("button clicked");
     location.href = "concertSelect.html";
 }
 
-$(document).on('click','.covid-btn',function() {
+$(document).on('click', '.covid-btn', function () {
     let zipcode = $(this).data('zipcode');
     console.log(zipcode);
     getCounty(zipcode);
 });
 
 
-$(document).on('click','#favorites',saveFaveFun);
+$(document).on('click', '#favorites', saveFaveFun);
 
 function saveFaveFun() {
     let name = $(this).data('eventName')
@@ -293,9 +302,6 @@ function saveFaveFun() {
     let date = $(this).data('eventDate')
     let id = $(this).data('eventID')
     let url = $(this).data('eventURL')
-    savedFavorites[id] = [name,city,date,url]
+    savedFavorites[id] = [name, city, date, url]
     localStorage.setItem('storedFavorites', JSON.stringify(savedFavorites));
 }
-
-submitButtonRadiusEl.on('click', search);
-
