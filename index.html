@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href=".\Assets\CSS\reset.css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
@@ -89,18 +89,21 @@
                 </ul>
             </nav>
         </section>
+        <section class=" d-none flex-column my-5  rounded-6 w-auto" id="eventCards"></section>
         <!-- Modal -->
         <div class="modal fade" id="covidModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="covidDataLabel"></h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close" id="headerCloseModal"></button>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"
+                            id="headerCloseModal"></button>
                     </div>
                     <div class="modal-body" id="countyStats">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" id="footerCloseModal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal"
+                            id="footerCloseModal">Close</button>
                     </div>
                 </div>
             </div>
