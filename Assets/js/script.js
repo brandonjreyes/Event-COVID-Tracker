@@ -68,14 +68,10 @@ function smlScrn(sml) {
         console.log("hit");
         $(searchBarEl).removeClass("w-25")
         $(searchBarEl).addClass("w-100");
-        eventCardsContainer.removeClass("d-none")
-        evenDataEl.addClass("d-none")
 
     } else {
         $(searchBarEl).addClass("w-25");
         $(searchBarEl).removeClass("w-100")
-        eventCardsContainer.removeClass("d-none")
-        evenDataEl.addClass("d-none")
     }
 }
 
@@ -178,7 +174,6 @@ function search() {
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
     city = cityInputEl.val();
-    eventCardsContainer.removeClass('d-none')
     if (city === "" && radius !== '0') {
         //search by radius
         getLocation();
@@ -201,57 +196,21 @@ function search() {
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
 
-    console.log();
-
-    let eventTableBody = $('#event-table-body'); // target the event table body so that we can add in new elements.
-
-    eventTableBody.empty(eventTableBody); // clears previous searches
-
+    eventCardsContainer.empty();
     tableCount = page * 15 + 1;
+
+    let paginationNav = $(`<nav>`).attr('aria-label','Page navigation example').attr('id','pagination');
+    let paginationUL = $(`<ul>`).addClass('pagination').addClass('justify-content-center').attr('id','paginationUL');
+    paginationNav.append(paginationUL);
+    eventCardsContainer.append(paginationNav);
 
     if (results !== null) {
         //creates a new row, and fills it with information from event array
         for (let i = 0; i < results.events.length; i++) {
-            //populate table
-            let tableRow = $("<tr></tr>")
-            let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
-            let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
-            let eventURL = $("<a href=''><</a>").text(results.events[i].name).attr("href", results.events[i].url);
-            eventURL.attr("target", "_blank");
-            let eventName = $("<td></td>").append(eventURL);
-            let eventDate = $("<td></td>").text(results.events[i].dates.start.localDate);
-
-            favoriteStar.attr('id', 'favorites')
-            favoriteStar.data('eventName', results.events[i].name)
-                .data('eventCity', results.events[i]._embedded.venues[0].city.name)
-                .data('eventDate', results.events[i].dates.start.localDate)
-                .data('eventURL', results.events[i].url)
-                .data('eventID', results.events[i].id);
-            let zipcode = results.events[i]._embedded.venues[0].postalCode;
-
-            // add covid info button
-            let covidInfoBtnCol = $("<td></td>")
-            let covidInfoBtn = $("<button></button>")
-
-            covidInfoBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
-            covidInfoBtn.attr('type', "button");
-            covidInfoBtn.attr('data-mdb-toggle', "modal")
-            covidInfoBtn.attr('data-mdb-target', "#covidModal")
-            covidInfoBtn.data('zipcode', zipcode);
-            covidInfoBtn.text("COVID INFO");
-
-            covidInfoBtnCol.append(covidInfoBtn);
-
-
-            eventName.addClass('table-row');
-            tableRow.append(rowHeader);
-            tableRow.append(favoriteStar);
-            tableRow.append(eventName);
-            tableRow.append(eventDate);
-            tableRow.append(covidInfoBtnCol);
-            eventTableBody.append(tableRow);
 
             //populate cards
+            let zipcode = results.events[i]._embedded.venues[0].postalCode;
+
             let card = $(`<div>`).addClass(`card`);
             let cardBody = $(`<div>`).addClass(`card-body`);
             let cardTitle = $(`<h5>`);
@@ -260,27 +219,28 @@ function renderResults(results) {
             let pDate = $(`<p>`).text(results.events[i].dates.start.localDate);
             let cardBtnContainer = $(`<div>`).css({ 'display': 'flex' });
 
-            let covidBtn2 = $("<button></button>");
-            covidBtn2.addClass("btn btn-sm m-0 btn-warning covid-btn");
-            covidBtn2.attr('type', "button");
-            covidBtn2.attr('data-mdb-toggle', "modal")
-            covidBtn2.attr('data-mdb-target', "#covidModal")
-            covidBtn2.data('zipcode', zipcode);
-            covidBtn2.text("COVID INFO");
+            let covidBtn = $("<button></button>");
+            covidBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
+            covidBtn.attr('type', "button");
+            covidBtn.attr('data-mdb-toggle', "modal")
+            covidBtn.attr('data-mdb-target', "#covidModal")
+            covidBtn.data('zipcode', zipcode);
+            covidBtn.text("COVID INFO");
 
-            let favoriteStar2 = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
-            favoriteStar2.attr('id', 'favorites');
-            favoriteStar2.data('eventName', results.events[i].name)
+            let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
+            favoriteStar.attr('id', 'favorites');
+            favoriteStar.data('eventName', results.events[i].name)
                 .data('eventCity', results.events[i]._embedded.venues[0].city.name)
                 .data('eventDate', results.events[i].dates.start.localDate)
                 .data('eventURL', results.events[i].url)
                 .data('eventID', results.events[i].id);
 
-            cardBtnContainer.append(covidBtn2, favoriteStar2);
+            cardBtnContainer.append(covidBtn, favoriteStar);
             cardBody.append(cardTitle, pDate, cardBtnContainer);
             card.append(cardBody);
             eventCardsContainer.append(card);
         }
+        eventCardsContainer.removeClass("d-none");
     }
 }
 function displayModalEmptyResults() {
@@ -337,7 +297,6 @@ $(document).on('click', '.covid-btn', function () {
 });
 
 
-$(document).on('click', '#favorites', saveFaveFun);
 $(document).on('click', '#favorites', saveFaveFun);
 $(document).on('click', '#favorites', renderFavorites);
 
