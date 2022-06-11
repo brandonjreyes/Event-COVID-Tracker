@@ -45,6 +45,7 @@ const submitButtonRadiusEl = $('#submitButtonRadius');
 const evenDataEl = $('#eventData');
 const footerCloseModal = $('#footerCloseModal')
 const headerCloseModal = $('#headerCloseModal')
+const eventCardsContainer = $(`#eventCards`);
 
 hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal')
 
@@ -206,6 +207,7 @@ function renderResults(results) {
     if (results !== null) {
         //creates a new row, and fills it with information from event array
         for (let i = 0; i < results.events.length; i++) {
+            //populate table
             let tableRow = $("<tr></tr>")
             let rowHeader = $("<th></th>").attr('scope', 'row').text(tableCount + i);
             let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>")
@@ -243,6 +245,36 @@ function renderResults(results) {
             tableRow.append(eventDate);
             tableRow.append(covidInfoBtnCol);
             eventTableBody.append(tableRow);
+
+            //populate cards
+            let card = $(`<div>`).addClass(`card`);
+            let cardBody = $(`<div>`).addClass(`card-body`);
+            let cardTitle = $(`<h5>`);
+            let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url);
+            cardTitle.append(cardTitleA);
+            let pDate = $(`<p>`).text(results.events[i].dates.start.localDate);
+            let cardBtnContainer = $(`<div>`).css({'display':'flex'});
+            
+            let covidBtn2 = $("<button></button>");
+            covidBtn2.addClass("btn btn-sm m-0 btn-warning covid-btn");
+            covidBtn2.attr('type', "button");
+            covidBtn2.attr('data-mdb-toggle', "modal")
+            covidBtn2.attr('data-mdb-target', "#covidModal")
+            covidBtn2.data('zipcode', zipcode);
+            covidBtn2.text("COVID INFO");
+
+            let favoriteStar2 = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
+            favoriteStar2.attr('id', 'favorites');
+            favoriteStar2.data('eventName', results.events[i].name)
+                .data('eventCity', results.events[i]._embedded.venues[0].city.name)
+                .data('eventDate', results.events[i].dates.start.localDate)
+                .data('eventURL', results.events[i].url)
+                .data('eventID', results.events[i].id);
+
+            cardBtnContainer.append(covidBtn2,favoriteStar2);
+            cardBody.append(cardTitle,pDate,cardBtnContainer);
+            card.append(cardBody);
+            eventCardsContainer.append(card);
         }
     }
 }
@@ -342,6 +374,4 @@ function clearFavorites() {
     faveEl.text("Add your favorites!")
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
-
-submitButtonRadiusEl.on('click', search);
 
