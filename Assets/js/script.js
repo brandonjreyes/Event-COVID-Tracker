@@ -30,7 +30,7 @@ const cityTag = '&city=';
 const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
 const searchBarEl = $("#searchBar")
-const sml = window.matchMedia("(max-width: 1000px)")
+const sml = window.matchMedia("(max-width: 500px)")
 const sizeTag = '&size=';
 const countyNameEl = $('<span>');
 const covidDataHeader = $('#covidDataLabel');
@@ -65,12 +65,17 @@ let savedFavorites = {}
 
 function smlScrn(sml) {
     if (sml.matches) {
+        console.log("hit");
         $(searchBarEl).removeClass("w-25")
         $(searchBarEl).addClass("w-100");
+        eventCardsContainer.removeClass("d-none")
+        evenDataEl.addClass("d-none")
 
     } else {
         $(searchBarEl).addClass("w-25");
         $(searchBarEl).removeClass("w-100")
+        eventCardsContainer.removeClass("d-none")
+        evenDataEl.addClass("d-none")
     }
 }
 
@@ -173,7 +178,7 @@ function search() {
     radius = rangeSliderEl.val(); //grab radius from slider
     keyword = keywordInput.val();   //grabs keyword input
     city = cityInputEl.val();
-    evenDataEl.removeClass('d-none')
+    eventCardsContainer.removeClass('d-none')
     if (city === "" && radius !== '0') {
         //search by radius
         getLocation();
@@ -253,8 +258,8 @@ function renderResults(results) {
             let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url);
             cardTitle.append(cardTitleA);
             let pDate = $(`<p>`).text(results.events[i].dates.start.localDate);
-            let cardBtnContainer = $(`<div>`).css({'display':'flex'});
-            
+            let cardBtnContainer = $(`<div>`).css({ 'display': 'flex' });
+
             let covidBtn2 = $("<button></button>");
             covidBtn2.addClass("btn btn-sm m-0 btn-warning covid-btn");
             covidBtn2.attr('type', "button");
@@ -271,8 +276,8 @@ function renderResults(results) {
                 .data('eventURL', results.events[i].url)
                 .data('eventID', results.events[i].id);
 
-            cardBtnContainer.append(covidBtn2,favoriteStar2);
-            cardBody.append(cardTitle,pDate,cardBtnContainer);
+            cardBtnContainer.append(covidBtn2, favoriteStar2);
+            cardBody.append(cardTitle, pDate, cardBtnContainer);
             card.append(cardBody);
             eventCardsContainer.append(card);
         }

@@ -21,6 +21,9 @@ body {
 #eventData {
     background-color: rgba(255, 255, 255, 0.75); 
 }
+#pagination {
+    background-color: rgba(255, 255, 255, 0.75);
+}
 /* @media (max-width: 1000px) {
     /* #searchBar {
         max-height: 38vh
