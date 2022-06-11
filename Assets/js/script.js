@@ -36,17 +36,16 @@ const countyNameEl = $('<span>');
 const covidDataHeader = $('#covidDataLabel');
 const countyStatsEl = $('#countyStats');
 const modalEl = $('#covidModal')
-const hiddenBtn = $('#hiddenBtn')
 const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 const rangeSliderEl = $('#range');
 const cityInputEl = $('#citySearch');
 const keywordInput = $('#eventSearch');
-const submitButtonRadiusEl = $('#submitButtonRadius');
+const submitButtonEl = $('#submitButton');
 const evenDataEl = $('#eventData');
 const footerCloseModal = $('#footerCloseModal')
 const headerCloseModal = $('#headerCloseModal')
 const eventCardsContainer = $(`#eventCards`);
-
+const hiddenBtn = $('#hiddenBtn')
 hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal')
 
 let keyword = "";
@@ -58,14 +57,11 @@ let totalPages;
 let queryInput = "";
 let queryData = [];
 
-
-
 let savedFavorites = {}
 
-
+// makes adjustments for smaller screens
 function smlScrn(sml) {
     if (sml.matches) {
-        console.log("hit");
         $(searchBarEl).removeClass("w-25")
         $(searchBarEl).addClass("w-100");
 
@@ -80,7 +76,7 @@ let covidInfoBtnEl = $('.covid-btn');
 const options = {
     method: 'GET'
 };
-
+// function for slider
 function rangValfunc(val) {
     document.querySelector("#rangeVal").innerHTML = val + " miles";
     radius = val;
@@ -101,22 +97,20 @@ function previousPage() {   //decrement page, requery
     }
     ticketmasterCall();
 }
-
+// ticketmaster API call
 function ticketmasterCall() {
-    console.log(pageTag + page + queryInput + sizeTag + 15);
     fetch(tickmasterURL + apiKey + pageTag + page + queryInput + sizeTag + 15, options)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            console.log(data);
             totalPages = data.page.totalPages;
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
             renderResults(queryData);
             renderPagination(data.page);
         });
 }
-
+// adds pagination
 function renderPagination(pageData) {
     let paginationUL = $("#paginationUL");
     paginationUL.empty(paginationUL);
@@ -150,7 +144,6 @@ function covidAPICall(fipsCode) {   //takes fipsCode and gets data
     fetch(`https://api.covidactnow.org/v2/county/${fipsCode}.json?apiKey=${covidAPIKey}`)
         .then(response => response.json())
         .then(function (data) {
-            console.log(data);
             renderCovidModal(data);
         });
 }
@@ -168,7 +161,6 @@ function stringifyLocation(position) {
 }
 
 function search() {
-    console.log("searching");
     //search using input from search bar and decide whether city input or radius input is used
     queryInput = "";
     radius = rangeSliderEl.val(); //grab radius from slider
@@ -190,12 +182,11 @@ function search() {
     else if (keyword === '' && radius === '0' && city === "") {
         //literally nothing, give error to have user enter input
         displayModalEmptyResults();
-
     }
 }
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
-
+    // emptys cards container on start of funciton
     eventCardsContainer.empty();
     tableCount = page * 15 + 1;
 
@@ -211,14 +202,13 @@ function renderResults(results) {
             //populate cards
             let zipcode = results.events[i]._embedded.venues[0].postalCode;
 
-            let card = $(`<div>`).addClass(`card`);
+            let card = $(`<div>`).addClass(`card m-3`);
             let cardBody = $(`<div>`).addClass(`card-body`);
             let cardTitle = $(`<h5>`);
             let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url);
             cardTitle.append(cardTitleA);
             let pDate = $(`<p>`).text(results.events[i].dates.start.localDate);
             let cardBtnContainer = $(`<div>`).css({ 'display': 'flex' });
-
             let covidBtn = $("<button></button>");
             covidBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
             covidBtn.attr('type', "button");
@@ -226,7 +216,6 @@ function renderResults(results) {
             covidBtn.attr('data-mdb-target', "#covidModal")
             covidBtn.data('zipcode', zipcode);
             covidBtn.text("COVID INFO");
-
             let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
             favoriteStar.attr('id', 'favorites');
             favoriteStar.data('eventName', results.events[i].name)
@@ -234,15 +223,16 @@ function renderResults(results) {
                 .data('eventDate', results.events[i].dates.start.localDate)
                 .data('eventURL', results.events[i].url)
                 .data('eventID', results.events[i].id);
-
             cardBtnContainer.append(covidBtn, favoriteStar);
             cardBody.append(cardTitle, pDate, cardBtnContainer);
             card.append(cardBody);
             eventCardsContainer.append(card);
         }
+        // sets cards to be displayed
         eventCardsContainer.removeClass("d-none");
     }
 }
+// Displays modal for if user provided no inputs
 function displayModalEmptyResults() {
     hiddenBtn.click()
     covidDataHeader.text("UH OH")
@@ -251,7 +241,6 @@ function displayModalEmptyResults() {
     headerCloseModal.on('click', emptyModal)
 }
 function renderCovidModal(data) {
-    console.log(252, data);
     if (data) {
         let countyName = data.county;
         countyNameEl.text("Covid Data For: " + countyName);
@@ -282,7 +271,7 @@ function emptyModal() {
 }
 smlScrn(sml)
 sml.addListener(smlScrn)
-submitButtonRadiusEl.on('click', search);
+submitButtonEl.on('click', search);
 
 function goNewPage(event) {
     event.preventDefault();
@@ -292,7 +281,6 @@ function goNewPage(event) {
 
 $(document).on('click', '.covid-btn', function () {
     let zipcode = $(this).data('zipcode');
-    console.log(zipcode);
     getCounty(zipcode);
 });
 

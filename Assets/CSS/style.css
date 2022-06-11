@@ -8,51 +8,9 @@ body {
     background-color: rgba(255, 255, 255, 0.75); 
 }
 
-#submitButtonRadius{
-    height: 4vh;
-    width: 15vw;
-}
-#range {
-    width: 12vw
-}
-.fontSizing {
-    font-size: 1vw;
-}
 #eventData {
     background-color: rgba(255, 255, 255, 0.75); 
 }
 #pagination {
     background-color: rgba(255, 255, 255, 0.75);
-}
-/* @media (max-width: 1000px) {
-    /* #searchBar {
-        max-height: 38vh
-    }
-    .fontSizing{
-        font-size: 1.5vw;
-    }
-} */
-@media (max-width: 1000px) {
-    #bckGrnd {
-        display: block;
-        padding: 0%;
-    }
-    #searchBar {
-        display: block;
-        max-width: 40vw;
-        max-height: 57vh;
-        
-    }
-    #eventData {
-        display: block;
-    }
-    .fontSizing {
-        font-size: 1.5vh;
-    }
-    #searchContainer {
-        padding: 0%;
-    }
-    body {
-        display: block;
-    }
 }

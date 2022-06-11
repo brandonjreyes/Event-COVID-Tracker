@@ -20,7 +20,7 @@
     </nav>
     <div class="d-flex container-fluid row justify-content-around p-0">
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-        <main id="searchBar" class="d-flex flex-column w-25 h-100 my-5 fontSizing rounded-6">
+        <main id="searchBar" class="d-flex flex-column w-25 h-100 my-5 fontSizing rounded-6 m-3">
             <div class="justify-content-center align-content-center h-50 container-fluid" id="searchContainer">
                 <div class="fw-bold fontSizing justify-content-center">What kind of event would you like to go to?</div>
                 <div class="input-group ">
@@ -40,7 +40,7 @@
                 <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0"
                     step="5" oninput="rangValfunc(this.value)" />
                 <output id="rangeVal" class="fontSizing">0 miles</output>
-                <button type="button" class="my-1 btn btn-primary fontSizing w-100" id="submitButtonRadius">
+                <button type="button" class="my-1 btn btn-primary fontSizing w-100" id="submitButton">
                     <i class="fas fa-search"></i>
                 </button>
                 <button class="d-none" id="hiddenBtn"></button>
@@ -66,7 +66,7 @@
                 </div>
             </div>
         </main>
-        <section class="d-none flex-column my-5  rounded-6 w-auto" id="eventCards">
+        <section class="d-none flex-column my-5  rounded-6 w-auto col" id="eventCards">
             <nav aria-label="Page navigation example" id="pagination">
                 <ul class="pagination justify-content-center" id="paginationUL">
                 </ul>
