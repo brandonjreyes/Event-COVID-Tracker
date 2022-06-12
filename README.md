@@ -97,7 +97,7 @@ We aim to implement the skills we learned from this project to real world applic
 ## Authors
 ​
 - Website - [Brandon Reyes](https://www.your-site.com)
-- Website - [Andrew Yeh](https://www.your-site.com)
+- Website - [Andrew Yeh](https://ayeh6.github.io/Yeh-Andrew-Portfolio-Website/)
 - Website - [James Montgomery](https://jmonty94.github.io/portfolio/)
 - Website - [Adriane Ocampo](https://ocampoad.github.io/Adriane_Ocampo_Portfolio/)
 
