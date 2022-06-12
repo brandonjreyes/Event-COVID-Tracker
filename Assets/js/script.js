@@ -1,53 +1,36 @@
-/*
-    First take the search input from user
-        Keyword
-            Either radius from current location
-        or  Input city
-
-    Query from api using input, pull data and render to screen (20 at a time)
-        will need some element to toggle pages (basically do the same query but with a different page tag)
-
-    User clicks on a certain event
-        Take the venue data from clicked event and grab the zip code
-        Use zip code api to find county
-        Take that county and then get COVID data using COVID api
-            with all this data, render to screen
-                Event name
-                Venue
-                Time starts
-                County event is in
-                Current cases
-                Vaccination rates
-*/
-
-const tickmasterURL = 'https://app.ticketmaster.com/discovery/v2/events.json';
-const apiKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`
+//ticketmaster api variables
+const ticketMasterURL = 'https://app.ticketmaster.com/discovery/v2/events.json';
+const ticketMasterAPIKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`;
 const keywordTag = '&keyword=';
 const radiusTag = '&radius=';
 const unitTag = '&unit=miles';
-const postalCodeTag = '&postalCode=';
 const cityTag = '&city=';
 const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
-const searchBarEl = $("#searchBar")
-const sml = window.matchMedia("(max-width: 500px)")
+
+//covid data api
+const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
+
+//elements on page
+const searchBarEl = $("#searchBar");
+const sml = window.matchMedia("(max-width: 500px)");
 const sizeTag = '&size=';
 const countyNameEl = $('<span>');
 const covidDataHeader = $('#covidDataLabel');
 const countyStatsEl = $('#countyStats');
-const modalEl = $('#covidModal')
-const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
+const modalEl = $('#covidModal');
 const rangeSliderEl = $('#range');
 const cityInputEl = $('#citySearch');
 const keywordInput = $('#eventSearch');
 const submitButtonEl = $('#submitButton');
 const evenDataEl = $('#eventData');
-const footerCloseModal = $('#footerCloseModal')
-const headerCloseModal = $('#headerCloseModal')
+const footerCloseModal = $('#footerCloseModal');
+const headerCloseModal = $('#headerCloseModal');
 const eventCardsContainer = $(`#eventCards`);
-const hiddenBtn = $('#hiddenBtn')
-hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal')
+const hiddenBtn = $('#hiddenBtn');
+hiddenBtn.attr('data-mdb-toggle', 'modal').attr('data-mdb-target', '#covidModal');
 
+//global variables
 let keyword = "";
 let radius = "";
 let city = "";
@@ -56,26 +39,24 @@ let page = 0;
 let totalPages;
 let queryInput = "";
 let queryData = [];
-
-let savedFavorites = {}
+let savedFavorites = {};
 
 // makes adjustments for smaller screens
 function smlScrn(sml) {
     if (sml.matches) {
-        $(searchBarEl).removeClass("w-25")
+        $(searchBarEl).removeClass("w-25");
         $(searchBarEl).addClass("w-100");
 
     } else {
         $(searchBarEl).addClass("w-25");
-        $(searchBarEl).removeClass("w-100")
+        $(searchBarEl).removeClass("w-100");
     }
 }
-
-let covidInfoBtnEl = $('.covid-btn');
 
 const options = {
     method: 'GET'
 };
+
 // function for slider
 function rangValfunc(val) {
     document.querySelector("#rangeVal").innerHTML = val + " miles";
@@ -97,30 +78,20 @@ function previousPage() {   //decrement page, requery
     }
     ticketmasterCall();
 }
+
 // ticketmaster API call
 function ticketmasterCall() {
-    fetch(tickmasterURL + apiKey + pageTag + page + queryInput + sizeTag + 15, options)
+    fetch(ticketMasterURL + ticketMasterAPIKey + pageTag + page + queryInput + sizeTag + 15, options)
         .then(function (response) {
-            return response.json()
+            return response.json();
         })
         .then(function (data) {
             totalPages = data.page.totalPages;
             queryData = data._embedded; //returns an array of events, if null then there are no events that fit parameters
+            console.log(queryData);
             renderResults(queryData);
-            renderPagination(data.page);
         });
 }
-// adds pagination
-function renderPagination(pageData) {
-    let paginationUL = $("#paginationUL");
-    paginationUL.empty(paginationUL);
-    paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id", "prevBtn"));
-    paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id", "nextBtn"));
-    $("#prevBtn").on("click", previousPage);
-    $("#nextBtn").on("click", nextPage);
-}
-
-
 
 function getCounty(zipCode) {   //gets fipsCode from inputted zipcode
     let fipsCode = '';
@@ -184,41 +155,93 @@ function search() {
         displayModalEmptyResults();
     }
 }
+
+function arrayToDate(dateArr) {
+    let output = '';
+    let month;
+    switch(dateArr[1]) {
+        case '01':
+            month = 'January';
+            break;
+        case '02':
+            month = 'February';
+            break;
+        case '03':
+            month = 'March';
+            break;
+        case '04':
+            month = 'April';
+            break;
+        case '05':
+            month = 'May';
+            break;
+        case '06':
+            month = 'June';
+            break;
+        case '07':
+            month = 'July';
+            break;
+        case '08':
+            month = 'August';
+            break;
+        case '09':
+            month = 'September';
+            break;
+        case '10':
+            month = 'October';
+            break;
+        case '11':
+            month = 'November';
+            break;
+        case '12':
+            month = 'December';
+            break;
+    }
+    output = `${month} ${dateArr[2]}, ${dateArr[0]}`;
+    return output;
+}
+
 //render the results to screen using results which is an array of objects
 function renderResults(results) {
     // emptys cards container on start of funciton
     eventCardsContainer.empty();
     tableCount = page * 15 + 1;
 
+    //adds pagination
     let paginationNav = $(`<nav>`).attr('aria-label','Page navigation example').attr('id','pagination').addClass("rounded-6");
     let paginationUL = $(`<ul>`).addClass('pagination').addClass('justify-content-between').attr('id','paginationUL');
+    paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id", "prevBtn").on("click", previousPage));
+    paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id", "nextBtn").on("click", nextPage));
     paginationNav.append(paginationUL);
     eventCardsContainer.append(paginationNav);
 
-    if (results !== null) {
+    if (results !== undefined) {
         //creates a new row, and fills it with information from event array
         for (let i = 0; i < results.events.length; i++) {
-
             //populate cards
+            //data for cards
             let zipcode = results.events[i]._embedded.venues[0].postalCode;
+            let dateArr = results.events[i].dates.start.localDate.split("-");
+            let date = arrayToDate(dateArr);
 
+            //card elements
             let card = $(`<div>`).addClass(`card m-3`);
             let cardBody = $(`<div>`).addClass(`card-body`);
             let cardTitle = $(`<h5>`);
-            let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url);
+            let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url).attr("target","_blank");
             cardTitle.append(cardTitleA);
-            let pDate = $(`<p>`).text(results.events[i].dates.start.localDate);
+            let pDate = $(`<p>`).text(date);
             let cardBtnContainer = $(`<div>`).css({ 'display': 'flex' });
             let covidBtn = $("<button></button>");
-            covidBtn.addClass("btn btn-sm m-0 btn-warning covid-btn");
-            covidBtn.attr('type', "button");
-            covidBtn.attr('data-mdb-toggle', "modal")
-            covidBtn.attr('data-mdb-target', "#covidModal")
-            covidBtn.data('zipcode', zipcode);
-            covidBtn.text("COVID INFO");
+            covidBtn.addClass("btn btn-sm m-0 btn-warning covid-btn")
+                .attr('type', "button")
+                .attr('data-mdb-toggle', "modal")
+                .attr('data-mdb-target', "#covidModal")
+                .data('zipcode', zipcode)
+                .text("COVID INFO");
             let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
-            favoriteStar.attr('id', 'favorites');
-            favoriteStar.data('eventName', results.events[i].name)
+            favoriteStar.attr('id', 'favorites')
+                .data('eventName', results.events[i].name)
                 .data('eventCity', results.events[i]._embedded.venues[0].city.name)
                 .data('eventDate', results.events[i].dates.start.localDate)
                 .data('eventURL', results.events[i].url)
@@ -231,15 +254,19 @@ function renderResults(results) {
         // sets cards to be displayed
         eventCardsContainer.removeClass("d-none");
     }
+    else {
+        displayModalEmptyResults();
+    }
 }
 // Displays modal for if user provided no inputs
 function displayModalEmptyResults() {
-    hiddenBtn.click()
-    covidDataHeader.text("UH OH")
-    countyStatsEl.text("Sorry your search resulted in 0 events please expand your search")
-    footerCloseModal.on('click', emptyModal)
-    headerCloseModal.on('click', emptyModal)
+    hiddenBtn.click();
+    covidDataHeader.text("UH OH");
+    countyStatsEl.text("Sorry your search resulted in 0 events please expand your search");
+    footerCloseModal.on('click', emptyModal);
+    headerCloseModal.on('click', emptyModal);
 }
+
 function renderCovidModal(data) {
     if (data) {
         let countyName = data.county;
@@ -253,24 +280,25 @@ function renderCovidModal(data) {
         let covidAdmissionsDesc = 'COVID patients per 100k pop admitted in the last week: ';
         $(countyStatsUl).append("<li>" + covidAdmissionsDesc + covidAdmissions + "</li>");
         let population = data.population;   //population of county
-        let populationDesc = 'Population of County: '
+        let populationDesc = 'Population of County: ';
         $(countyStatsUl).append("<li>" + populationDesc + population + "</li>");
         let vaxRatio = data.metrics.vaccinationsCompletedRatio; //Ratio of population that has completed vaccination.
         let vaxCompleted = vaxRatio * 100;   //Percentage of people that have completed vaccination.
         let vaxCompletedDesc = 'Percentage of people vaccinated fully: ';
-        $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted + "%" + "</li>");
-        countyStatsEl.append(countyStatsUl)
+        $(countyStatsUl).append("<li>" + vaxCompletedDesc + vaxCompleted.toFixed(2) + "%" + "</li>");
+        countyStatsEl.append(countyStatsUl);
     }
-    footerCloseModal.on('click', emptyModal)
-    headerCloseModal.on('click', emptyModal)
+    footerCloseModal.on('click', emptyModal);
+    headerCloseModal.on('click', emptyModal);
 }
 
 function emptyModal() {
-    covidDataHeader.empty()
-    countyStatsEl.empty()
+    covidDataHeader.empty();
+    countyStatsEl.empty();
 }
-smlScrn(sml)
-sml.addListener(smlScrn)
+
+smlScrn(sml);
+sml.addListener(smlScrn);
 submitButtonEl.on('click', search);
 
 function goNewPage(event) {
@@ -284,17 +312,16 @@ $(document).on('click', '.covid-btn', function () {
     getCounty(zipcode);
 });
 
-
 $(document).on('click', '#favorites', saveFaveFun);
 $(document).on('click', '#favorites', renderFavorites);
 
 function saveFaveFun() {
-    let name = $(this).data('eventName')
-    let city = $(this).data('eventCity')
-    let date = $(this).data('eventDate')
-    let id = $(this).data('eventID')
-    let url = $(this).data('eventURL')
-    lastInput[id] = [name, city, date, url]
+    let name = $(this).data('eventName');
+    let city = $(this).data('eventCity');
+    let date = $(this).data('eventDate');
+    let id = $(this).data('eventID');
+    let url = $(this).data('eventURL');
+    lastInput[id] = [name, city, date, url];
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
 
@@ -302,28 +329,28 @@ let lastInput = JSON.parse(localStorage.getItem("storedFavorites"));
 let faveEl = $("#savedFavorites");
 
 if (lastInput != null) {
-    renderFavorites()
+    renderFavorites();
 } else {
     lastInput = {};
-    faveEl.text("Add your favorites!")
+    faveEl.text("Add your favorites!");
 }
 
 function renderFavorites() {
     faveEl.empty(faveEl);
     for (let x in lastInput) {
         let listEl = $("<li></li>");
-        let listURL = $("<a href=''></a>").text(lastInput[x][0]).attr("href", lastInput[x][3]).attr("target", "_blank")
-        listEl.append(listURL)
+        let listURL = $("<a href=''></a>").text(lastInput[x][0]).attr("href", lastInput[x][3]).attr("target", "_blank");
+        listEl.append(listURL);
         faveEl.append(listEl);
     }
 }
 
-$("#clearBtn").on("click", clearFavorites)
+$("#clearBtn").on("click", clearFavorites);
 
 function clearFavorites() {
     faveEl.empty(faveEl);
-    lastInput = {}
-    faveEl.text("Add your favorites!")
+    lastInput = {};
+    faveEl.text("Add your favorites!");
     localStorage.setItem('storedFavorites', JSON.stringify(lastInput));
 }
 
