@@ -15,40 +15,44 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-center">
-        <div class="fw-bolder fontSizing"> Event COVID Tracker</div>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center bg-* text-white mt-4">
+        <div class="fw-bolder fontSizing h2 my-2"> EVENT COVID TRACKER</div>
     </nav>
     <div class="d-flex container-fluid row justify-content-around p-0">
+
         <!-- change justify-content-center to justify-content-start to push search bar to the side -->
-        <main id="searchBar" class="d-flex flex-column w-25 h-100 my-5 fontSizing rounded-6 m-3">
-            <div class="justify-content-center align-content-center h-50 container-fluid" id="searchContainer">
-                <div class="fw-bold fontSizing justify-content-center">What kind of event would you like to go to?</div>
+        <main id="searchBar" class="d-flex flex-column w-25 h-100 my-5 fontSizing rounded-6 m-3 p-3">
+            <div class="justify-content-center align-content-center h-50 container-fluid " id="searchContainer">
+                <div class="fw-bold fontSizing justify-content-center pb-2">What kind of event would you like to go to?
+                </div>
                 <div class="input-group ">
-                    <div class="form-outline">
+                    <div class="form-outline w-100">
                         <input type="search" class="my-1 form-control" id="eventSearch">
                         <label class="form-label" for="form1">Event</label>
                     </div>
                 </div>
-                <div class="fw-bold fontSizing justify-content-center">Search by City</div>
+                <div class="fw-bold fontSizing justify-content-center py-2">Search by City</div>
                 <div class="input-group ">
-                    <div class="form-outline">
+                    <div class="form-outline w-100">
                         <input type="search" class="my-1 form-control" id="citySearch">
                         <label class="form-label" for="form1">City</label>
                     </div>
                 </div>
-                <div class="fw-bold fontSizing">Or search by distance from your current location</div>
-                <input class="FontSizing" type="range" id="range" name="distanceRange" min="0" max="250" value="0"
+                <div class="fw-bold fontSizing py-2">Or search by distance from your current location</div>
+                <input class="FontSizing w-100" type="range" id="range" name="distanceRange" min="0" max="250" value="0"
                     step="5" oninput="rangValfunc(this.value)" />
                 <output id="rangeVal" class="fontSizing">0 miles</output>
-                <button type="button" class="my-1 btn btn-primary fontSizing w-100" id="submitButton">
+                <button type="button" class="my-3 btn btn-primary fontSizing w-100" id="submitButton">
                     <i class="fas fa-search"></i>
                 </button>
                 <button class="d-none" id="hiddenBtn"></button>
 
+                <hr class="my-3">
+                <!-- Favorites Bar -->
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                        <h2 class="w-100 accordion-header " id="headingTwo">
+                            <button class=" accordion-button collapsed" type="button" data-mdb-toggle="collapse"
                                 data-mdb-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 Favorites
                             </button>
@@ -58,20 +62,28 @@
                             data-mdb-parent="#accordionExample">
                             <div class="accordion-body">
                                 <ol id="savedFavorites"></ol>
-                                <div type="button" id="clearBtn">CLEAR SELECTION <i class="fa-solid fa-x"></i> </div>
+                                <div type="button" id="clearBtn">CLEAR SELECTION <i
+                                        class="justify-content-right fa-solid fa-x"></i> </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
+
+
+
         </main>
-        <section class="d-none flex-column my-5  rounded-6 w-auto col" id="eventCards">
+
+
+        <!-- Pagination -->
+        <section class="d-none flex-column my-5  rounded-6 w-auto col p-0" id="eventCards">
             <nav aria-label="Page navigation example" id="pagination">
                 <ul class="pagination" id="paginationUL">
                 </ul>
             </nav>
         </section>
+
         <!-- Modal -->
         <div class="modal fade" id="covidModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -96,4 +108,5 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.1.0/mdb.min.js"></script>
     <script src="./Assets/js/script.js"></script>
 </body>
+
 </html>

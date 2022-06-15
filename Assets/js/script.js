@@ -159,7 +159,7 @@ function search() {
 function arrayToDate(dateArr) {
     let output = '';
     let month;
-    switch(dateArr[1]) {
+    switch (dateArr[1]) {
         case '01':
             month = 'January';
             break;
@@ -208,8 +208,8 @@ function renderResults(results) {
     tableCount = page * 15 + 1;
 
     //adds pagination
-    let paginationNav = $(`<nav>`).attr('aria-label','Page navigation example').attr('id','pagination').addClass("rounded-6");
-    let paginationUL = $(`<ul>`).addClass('pagination').addClass('justify-content-between').attr('id','paginationUL');
+    let paginationNav = $(`<nav>`).attr('aria-label', 'Page navigation example').attr('id', 'pagination').addClass("rounded-6");
+    let paginationUL = $(`<ul>`).addClass('pagination').addClass('p-2 justify-content-between').attr('id', 'paginationUL');
     paginationUL.append($("<div type = 'button'><i class='fa-solid fa-arrow-left'></i> Prev &nbsp;</div>").attr("id", "prevBtn").on("click", previousPage));
     paginationUL.append($("<div type = 'button'> &nbsp; Next <i class='fa-solid fa-arrow-right'></i></div>").attr("id", "nextBtn").on("click", nextPage));
     paginationNav.append(paginationUL);
@@ -226,12 +226,18 @@ function renderResults(results) {
 
             //card elements
             let card = $(`<div>`).addClass(`card m-3`);
-            let cardBody = $(`<div>`).addClass(`card-body`);
+            let cardBody = $(`<div>`).addClass(`card-body d-flex container-fluid`);
             let cardTitle = $(`<h5>`);
-            let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url).attr("target","_blank");
+            let cardTitleA = $(`<a>`).text(results.events[i].name).attr("href", results.events[i].url).attr("target", "_blank");
             cardTitle.append(cardTitleA);
             let pDate = $(`<p>`).text(date);
+
             let cardBtnContainer = $(`<div>`).css({ 'display': 'flex' });
+            cardTitle.addClass("col-md-5 align-items-center")
+            pDate.addClass("col-md-5 align-items-center")
+            cardBtnContainer.addClass("col-md-2 ms-auto justify-content-end align-items-center")
+
+
             let covidBtn = $("<button></button>");
             covidBtn.addClass("btn btn-sm m-0 btn-warning covid-btn")
                 .attr('type', "button")
@@ -239,7 +245,7 @@ function renderResults(results) {
                 .attr('data-mdb-target', "#covidModal")
                 .data('zipcode', zipcode)
                 .text("COVID INFO");
-            let favoriteStar = $("<th><button type='button' class='btn btn-floating'><i class='fa-regular fa-star'></i></button></th>");
+            let favoriteStar = $("<th><button type='button' class='btn btn-floating justify-content-between'><i class='fa-regular fa-star'></i></button></th>");
             favoriteStar.attr('id', 'favorites')
                 .data('eventName', results.events[i].name)
                 .data('eventCity', results.events[i]._embedded.venues[0].city.name)
