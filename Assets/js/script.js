@@ -1,13 +1,7 @@
 //ticketmaster api variables
-const ticketMasterURL = 'https://app.ticketmaster.com/discovery/v2/events.json';
-const ticketMasterAPIKey = `?apikey=cs6ybE2gX1EZMGEsKgTr6gBTb75xbSQf`;
-const keywordTag = '&keyword=';
-const radiusTag = '&radius=';
-const unitTag = '&unit=miles';
-const cityTag = '&city=';
-const latlongTag = '&geoPoint=';
-const pageTag = '&page=';
 
+
+//testtestewlajfdkl;jasklfds
 //covid data api
 const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 
