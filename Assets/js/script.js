@@ -8,7 +8,6 @@ const cityTag = '&city=';
 const latlongTag = '&geoPoint=';
 const pageTag = '&page=';
 
-//testing testing tejilsaf;ldkas
 //covid data api
 const covidAPIKey = `06c6412217b747449f8ef9626323e7a4`;
 

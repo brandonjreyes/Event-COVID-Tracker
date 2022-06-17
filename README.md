@@ -1,4 +1,3 @@
-<!-- test -->
 # Event-COVID-Tracker
 ​
 ## Table of contents
